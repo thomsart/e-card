@@ -11,14 +11,20 @@ def clients(requests):
 
     if requests.method == 'GET':
 
-        clients = User.objects.all().values()
-        for client in clients:
-            print(client)
-        context = {
-            'clients': clients
-        }
+        context = {"user_cards": []}
+
+        users = User.objects.all()
+        for user in users:
+            couple = {
+                'user': [],
+                'cards': []
+            }
+            couple['user'].append(user)
+            couple['cards'].append(Card.objects.filter(user_id=user.id))
+            context["user_cards"].append(couple)
 
         return render(requests, 'clients.html', context)
+
 
 def add_client(requests):
     pass

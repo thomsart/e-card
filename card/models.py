@@ -8,3 +8,6 @@ class Card(models.Model):
     profession = models.CharField(max_length=20, null=False, default="profession")
     photo = models.ImageField(max_length=20, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta():
+        ordering = ['user']

@@ -18,19 +18,23 @@
 
         <div class="clients">
             <div class="row" style="background-color:  #c4c125;">
-                {% for client in clients %}
-                    <h2 class="card-title">{{client.first_name}} {{client.last_name}} <a href="clients/card/add">new card</a></h2>
+                {% for couple in user_cards %}
+                    <h2 class="card-title">{{ couple.user.first_name }} {{ couple.user.last_name }} <a href="clients/card/add">new card</a></h2>
+                    {% for card in couple.cards %}
                     <div class="col-auto-5 col-md-4" style="background-color: #da8e6d;">
                         <div class="card" style="width: 10em; background-color: #25c48f;">
                             <div class="card-body">
-                                <h3 class="card-title">{{client.card.profession}}</h3>
-                                <h3 class="card-title">{{client.first_name}}</h3>
-                                <h4 class="card-title">{{client.last_name}}</h4>
+                                <h3 class="card-title">{{ card.profession }}</h3>
+                                <h3 class="card-title">{{ card.created_at }}</h3>
+
+                                <h3 class="card-title">{{ couple.user.first_name }}</h3>
+                                <!-- <h4 class="card-title">{{ card.photo }}</h4> -->
                                 <!-- <img class="card-img-top" src={{client.card.photo}} alt="Card image cap" style="height: 14em;"> -->
                             </div>
                         </div>
-                        <a href="clients/card/delete"><h4>delete</h4></a>
+                        <a href="clients/card/delete"><h4>delete card</h4></a>
                     </div>
+                    {% endfor %}
                     <a href="clients/delete"><h4>delete client</h4></a>
                 {% endfor %}
             </div>
