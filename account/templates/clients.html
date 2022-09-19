@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8"/>
+        <title>e-card</title>
+        <link href="statics/css/clients.css" rel="stylesheet" type="text/css" media="all"/>
+    </head>
+
+    <body>
+        <!-- Navigation-->
+        <nav>
+            <div class="div_column">
+                <h1>Clients</h1>
+                <a href="clients/add"><h1>New client</h1></a>
+            </div>
+        </nav>
+
+        <div class="clients">
+            <div class="row" style="background-color:  #c4c125;">
+                {% for client in clients %}
+                    <h2 class="card-title">{{client.first_name}} {{client.last_name}} <a href="clients/card/add">new card</a></h2>
+                    <div class="col-auto-5 col-md-4" style="background-color: #da8e6d;">
+                        <div class="card" style="width: 10em; background-color: #25c48f;">
+                            <div class="card-body">
+                                <h3 class="card-title">{{client.card.profession}}</h3>
+                                <h3 class="card-title">{{client.first_name}}</h3>
+                                <h4 class="card-title">{{client.last_name}}</h4>
+                                <!-- <img class="card-img-top" src={{client.card.photo}} alt="Card image cap" style="height: 14em;"> -->
+                            </div>
+                        </div>
+                        <a href="clients/card/delete"><h4>delete</h4></a>
+                    </div>
+                    <a href="clients/delete"><h4>delete client</h4></a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Footer-->
+        <footer id="footer">
+        </footer>
+    </body>
+</html>

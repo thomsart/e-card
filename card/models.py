@@ -3,7 +3,8 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-class Photo(models.model):
+class Card(models.Model):
     created_at = models.DateField(auto_now_add=True)
-    photo = models.ImageField(height_field="H", width_field="w", max_length=10, null=True)
-    user = models.ForeignKey(User)
+    profession = models.CharField(max_length=20, null=False, default="profession")
+    photo = models.ImageField(max_length=20, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
