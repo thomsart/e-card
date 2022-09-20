@@ -10,18 +10,13 @@ from card.models import Card
 def clients(requests):
 
     if requests.method == 'GET':
-
-        context = {"user_cards": []}
-
+        context = {'user_cards': []}
         users = User.objects.all()
         for user in users:
-            couple = {
-                'user': [],
-                'cards': []
-            }
-            couple['user'].append(user)
-            couple['cards'].append(Card.objects.filter(user_id=user.id))
-            context["user_cards"].append(couple)
+            couple = {}
+            couple['user'] = user
+            couple['cards'] = Card.objects.filter(user_id=user.id)
+            context['user_cards'].append(couple)
 
         return render(requests, 'clients.html', context)
 
@@ -29,14 +24,20 @@ def clients(requests):
 def add_client(requests):
     pass
 
+
 def add_card(requests):
     pass
+
 
 def delete_card(requests):
     pass
 
+
 def delete_client(requests):
     pass
+
+
+
 
 
 def get_card(requests, user_id):
