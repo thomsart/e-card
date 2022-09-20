@@ -1,6 +1,7 @@
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+
+from account.form import UserForm
 from card.models import Card
 
 # render(request, 'home.html', context)
@@ -22,19 +23,34 @@ def clients(requests):
 
 
 def add_client(requests):
-    pass
+
+    form = UserForm(requests.POST)
+
+    if requests.method == 'GET':
+        return render(requests, 'add_client.html', {'UserForm': form})
+
+    if requests.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect('clients')
 
 
 def add_card(requests):
-    pass
+
+    if requests.method == 'GET':
+        return redirect('clients')
 
 
 def delete_card(requests):
-    pass
+
+    if requests.method == 'GET':
+        return redirect('clients')
 
 
 def delete_client(requests):
-    pass
+
+    if requests.method == 'GET':
+        return redirect('clients')
 
 
 

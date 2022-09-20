@@ -1,0 +1,12 @@
+<h1>Nouveau client :</h1>
+
+<form action="/clients/add/" method="post">
+    {% csrf_token %}
+    {% for field in UserForm %}
+        {{ field.name }}
+        <br>
+        {{ field }}
+        <br><br>
+    {% endfor %}
+    <button type="submit">Valider</button>
+</form>
