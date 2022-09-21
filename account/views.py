@@ -53,7 +53,12 @@ def add_card(requests, user_id):
 
     if requests.method == 'GET':
 
-        return render(requests, 'add_card.html', {'user_id': user_id, 'CardForm': card_form})
+        user = User.objects.get(id=user_id)
+        return render(requests, 'add_card.html', {'user_id': user_id,
+                                                  'user_first_name': user.first_name,
+                                                  'user_last_name': user.last_name,
+                                                  'user_email': user.email,
+                                                  'CardForm': card_form})
 
     if requests.method == 'POST':
         if card_form.is_valid():

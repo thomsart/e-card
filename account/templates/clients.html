@@ -12,7 +12,8 @@
         <nav>
             <div class="div_column">
                 <h1>Clients</h1>
-                <a href="/clients/add/"><h3>new client</h3></a>
+                <a href="/clients/add/">
+                    <button type="submit"><h3>New client</h3></button></a>
             </div>
         </nav>
 
@@ -25,7 +26,10 @@
                         {% else %}
                             {{ couple.user.email }}
                         {% endif %}
-                        <a href="/clients/{{couple.user.id}}/card/add/">New Card</a>
+                        <a href="/clients/{{couple.user.id}}/card/add/">
+                            <button type="submit"><h3>Edit Card</h3></button></a>
+                        <a href="/clients/{{couple.user.id}}/delete/">
+                            <button type="submit"><h3>Delete client</h3></button></a>
                     </h2>
                     {% for card in couple.cards %}
                     <div class="col-auto-8 col-md-8" style="width: 22em; background-color: #da8e6d;">
@@ -38,10 +42,10 @@
                                 <h3>{{ couple.user.email }}</h3>
                             </div>
                         </div>
-                        <a href="/clients/{{couple.user.id}}/card/{{card.id}}/delete/"><h4>delete card</h4></a>
+                        <a href="/clients/{{couple.user.id}}/card/{{card.id}}/delete/">
+                            <button type="submit"><h3>Delete card</h3></button></a>
                     </div>
                     {% endfor %}
-                    <a href="/clients/{{couple.user.id}}/delete/"><h4>delete client</h4></a>
                     <h1>======================================================================================</h1>
                 {% endfor %}
             </div>

@@ -1,4 +1,8 @@
-<h1>Ajouter une carte :</h1>
+<h1>Ajoute une carte à  {% if user_first_name and user_last_name %}
+                            {{user_first_name}} {{user_last_name}}
+                        {% else %}
+                            {{user_email}}
+                        {% endif %}:</h1>
 
 <form action="/clients/{{user_id}}/card/add/" method="post">
     {% csrf_token %}
