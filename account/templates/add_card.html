@@ -1,0 +1,13 @@
+<h1>Ajouter une carte :</h1>
+
+<form action="/clients/{{user_id}}/card/add/" method="post">
+    {% csrf_token %}
+    {% for field in CardForm %}
+        {{ field.label }}
+        <br>
+        {{ field }}
+        <br><br>
+    {% endfor %}
+    <button type="submit">Valider</button>
+</form>
+<a href="/clients/">Retour</a>

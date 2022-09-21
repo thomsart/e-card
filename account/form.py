@@ -1,15 +1,10 @@
-from django.contrib.auth.models import User
 from django import forms
 
 
 # Create your form here.
 
-class UserForm(forms.ModelForm):
-    
-    class Meta:
-        model = User
-        fields = ['first_name', 'last_name', 'email', 'password', 'username']
-        # widgets = {'username':forms.HiddenInput()}
+class ClientForm(forms.Form):
 
-    def clean_username(self):
-        return self.cleaned_data.get('email')
+    first_name = forms.CharField(label='prenom', max_length=20)
+    last_name = forms.CharField(label='nom', max_length=20)
+    email = forms.EmailField(label='email', max_length=254)
