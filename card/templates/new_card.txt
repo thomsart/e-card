@@ -2,13 +2,9 @@
 
 Bonjour, {{ first_name }} {{ last_name }}
 Voici votre QR-code pour partager votre carte de visite virtuelle.
+Il vous suffit de le faire scanner pour la partager.
+{{ QR_code }}
 
 Cordialement, L'équipe Ecard.
-
-{% block reset_link %}
-https://kastorr.app/
-{% endblock %}
-
-Il vous suffit de le faire scanner pour la partager.
 
 {% endautoescape %}

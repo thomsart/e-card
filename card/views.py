@@ -1,9 +1,9 @@
-from http.client import USE_PROXY
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 
 from card.form import CardForm
 from card.models import Card
+from card.utils.tools import *
 
 
 
@@ -54,16 +54,22 @@ def delete_card(requests, user_id, card_id):
         return redirect('clients')
 
 
-
 context = {
     "mail": "psychoid@hotmail.fr",
     "first_name": "Thomas",
-    "last_name": "Cottenceau",
+    "last_name": "Cottenceau"
 }
 
 def get_card(requests, user_id):
 
     if requests.method == 'GET':
-        email = send_email_new_client(context)
+        generate_QR_code(user_id)
+        context['QR_code'] = download_QR_code(user_id)
+        if context['QR_code']:
+            print(context['QR_code'])
+            email = send_email_new_card(context)
+
         if email:
+            delete_QR_code(user_id)
+            
             return redirect('clients')
