@@ -19,13 +19,6 @@ def generate_QR_code(user_id):
         return False
 
 
-def download_QR_code(user_id):
-
-    QR_code = open("QR_codes/" + user_id + ".png", 'r')
-
-    return QR_code
-
-
 def delete_QR_code(user_id):
     pass
 

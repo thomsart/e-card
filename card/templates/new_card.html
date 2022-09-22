@@ -12,11 +12,15 @@
                 <tr>
                     <td align="center" bgcolor="#ffffff" style="padding:30px">
                         <p style="text-align:left">
-                            Bonjour, {{ first_name }} {{ last_name }} !<br><br>
+                            Bonjour, {% if user_first_name and user_last_name %}
+                                        {{user_first_name}} {{user_last_name}}
+                                     {% else %}
+                                        {{user_email}}
+                                     {% endif %} !<br><br>
                             Voici votre QR-code pour partager votre carte de visite virtuelle.<br>
                             Il vous suffit de le faire scanner pour la partager.
                         </p><br>
-                        <img class="QR_code" src="QR_codes/1.png" alt="scanne ça connard !">
+                        <img class="QR_code" src="{{path}}" alt="scanne ça connard !">
                         <p>
                             Cordialement,<br><br>L'équipe Ecard !
                         </p>

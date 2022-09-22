@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from card.form import CardForm
 from card.models import Card
 from card.utils.tools import *
+from ecard.settings import BASE_DIR
 
 
 
@@ -62,14 +63,23 @@ context = {
 
 def get_card(requests, user_id):
 
-    if requests.method == 'GET':
+    user = User.objects.get(id=user_id)
+
+    if user and requests.method == 'GET':
         generate_QR_code(user_id)
-        context['QR_code'] = download_QR_code(user_id)
-        if context['QR_code']:
-            print(context['QR_code'])
-            email = send_email_new_card(context)
+        context = {
+            'user_first_name': user.first_name,
+            'user_last_name': user.last_name,
+            'user_email': user.email,
+            'path': os.path.join(BASE_DIR, "QR_codes", user_id + ".png")
+        }
+
+        email = send_email_new_card(context)
 
         if email:
             delete_QR_code(user_id)
             
             return redirect('clients')
+
+    else:
+        pass
