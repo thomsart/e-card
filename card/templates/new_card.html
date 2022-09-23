@@ -6,27 +6,13 @@
     </head>
 
     <body style="background-color: #ffffff; font-size: 16px;">
-        <center>
-            <table align="center" border="0" cellpadding="0" cellspacing="0" style="height:100%; width:600px;">
-            <!-- BEGIN EMAIL -->
-                <tr>
-                    <td align="center" bgcolor="#ffffff" style="padding:30px">
-                        <p style="text-align:left">
-                            Bonjour, {% if user_first_name and user_last_name %}
-                                        {{user_first_name}} {{user_last_name}}
-                                     {% else %}
-                                        {{user_email}}
-                                     {% endif %} !<br><br>
-                            Voici votre QR-code pour partager votre carte de visite virtuelle.<br>
-                            Il vous suffit de le faire scanner pour la partager.
-                        </p><br>
-                        <img class="QR_code" src="{{path}}" alt="scanne ça connard !">
-                        <p>
-                            Cordialement,<br><br>L'équipe Ecard !
-                        </p>
-                    </td>
-                </tr>
-            </table>
-        </center>
+        <table align="center" border="0" cellpadding="0" cellspacing="0" style="height:100%; width:600px;">
+        <!-- BEGIN EMAIL -->
+            <p style="text-align:left">
+                Voici votre QR-code pour generer votre carte de visite virtuelle.<br>
+                Il vous suffit de le faire scanner pour la partager.<br>
+                Cordialement,<br><br>L'equipe d'E-card !
+            </p>
+        </table>
     </body>
 </html>

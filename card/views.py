@@ -55,11 +55,19 @@ def delete_card(requests, user_id, card_id):
         return redirect('clients')
 
 
-context = {
-    "mail": "psychoid@hotmail.fr",
-    "first_name": "Thomas",
-    "last_name": "Cottenceau"
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def get_card(requests, user_id):
 
@@ -67,18 +75,10 @@ def get_card(requests, user_id):
 
     if user and requests.method == 'GET':
         generate_QR_code(user_id)
-        context = {
-            'user_first_name': user.first_name,
-            'user_last_name': user.last_name,
-            'user_email': user.email,
-            'path': os.path.join(BASE_DIR, "QR_codes", user_id + ".png")
-        }
-
-        email = send_email_new_card(context)
+        email = send_email_new_card(user_id)
 
         if email:
             delete_QR_code(user_id)
-            
             return redirect('clients')
 
     else:

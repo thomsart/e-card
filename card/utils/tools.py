@@ -1,18 +1,19 @@
 import os
-from ecard.settings import BASE_DIR
 
+from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 from django import template
 import qrcode
-import qrcode.image.svg
+
+from ecard.settings import BASE_DIR
 
 
 
 def generate_QR_code(user_id):
 
     try:
-        img = qrcode.make("http://www.thomsart.tech", box_size=10)
-        img.save('QR_codes/' + str(user_id) + '.png', 'PNG')
+        img = qrcode.make("http://www.thomsart.tech", box_size=20)
+        img.save(os.path.join('QR_codes', str(user_id) + '.png'), 'PNG')
         return True
 
     except Exception:
@@ -23,34 +24,38 @@ def delete_QR_code(user_id):
     pass
 
 
-def send_email_new_card(context):
+def send_email_new_card(user_id):
     """
     When a card is created, an e-mail is send to the client with a QR code
     to retreive his new card.
     """
 
-    path = os.path.join(BASE_DIR, "card", "templates", "new_card.html")
-    with open(path, 'r') as temp:
+    user = User.objects.get(id=user_id)
+
+    with open(os.path.join(BASE_DIR, "card", "templates", "new_card.html"), 'r') as temp:
         file = temp.read()
 
-    file_trans = file.replace('{{ first_name }}', context['first_name'])
-    file_trans = file.replace('{{ last_name }}', context['last_name'])
-
     # render email text
+    context = {
+        "user_first_name": user.first_name,
+        "user_last_name": user.last_name,
+    }
     email_plaintext_message = template.loader.get_template('new_card.txt').render(context)
 
     msg = EmailMultiAlternatives(
         # title:
-        "Votre QR-code pour generer votre carte de visite.",
+        "Bonjour " + str(user.first_name) + " " + str(user.last_name) + " !",
         # message:
         email_plaintext_message,
         # from:
         "psychoid77@gmail.com",
         # to:
-        [context['mail']]
+        ["psychoid@hotmail.fr",
+         "psychoid77@gmail.com"]
     )
 
-    msg.attach_alternative(file_trans, "text/html")
+    msg.attach_alternative(file, "text/html")
+    msg.attach_file(os.path.join("QR_codes", str(user.id) + ".png"))
     msg.send()
 
     return True

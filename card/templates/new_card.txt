@@ -1,10 +1,9 @@
 {% load i18n %}{% autoescape off %}
 
-Bonjour, {{ first_name }} {{ last_name }}
-Voici votre QR-code pour partager votre carte de visite virtuelle.
+Voici votre QR-code pour generer votre carte de visite virtuelle.
 Il vous suffit de le faire scanner pour la partager.
-{{ QR_code }}
+Cordialement,
 
-Cordialement, L'équipe Ecard.
+L'équipe d'E-card !
 
 {% endautoescape %}
