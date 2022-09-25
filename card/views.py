@@ -4,17 +4,15 @@ from django.contrib.auth.models import User
 from card.form import CardForm
 from card.models import Card
 from card.utils.tools import *
-from ecard.settings import BASE_DIR
 
 
 
 def add_card(requests, user_id):
 
     card_form = CardForm(requests.POST)
+    user = User.objects.get(id=user_id)
 
     if requests.method == 'GET':
-
-        user = User.objects.get(id=user_id)
 
         return render(
             requests,
@@ -30,8 +28,7 @@ def add_card(requests, user_id):
 
     if requests.method == 'POST':
         if card_form.is_valid():
-
-            user = User.objects.get(id=user_id)
+            
             Card.objects.create(
                 profession=card_form.cleaned_data['profession'],
                 phone=card_form.cleaned_data['phone'],
@@ -47,6 +44,12 @@ def add_card(requests, user_id):
             return redirect('add_card', user_id)
 
 
+
+def get_card(requests, user_id, card_id):
+    pass
+
+
+
 def delete_card(requests, user_id, card_id):
 
     if requests.method == 'GET' and user_id and card_id:
@@ -56,30 +59,23 @@ def delete_card(requests, user_id, card_id):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-def get_card(requests, user_id):
+def send_email_link(requests, user_id, card_id):
 
     user = User.objects.get(id=user_id)
+    card = Card.objects.get(id=card_id)
 
-    if user and requests.method == 'GET':
-        generate_QR_code(user_id)
-        email = send_email_new_card(user_id)
+    if user and card:
+        if requests.method == 'GET':
+            generate_QR_code(user_id, card_id)
+            email = send_email_QR_code(user_id, card_id)
 
-        if email:
-            delete_QR_code(user_id)
-            return redirect('clients')
+            if email:
+                delete_QR_code(user_id, card_id)
 
+                return redirect('clients')
+
+        else:
+            print("Email not send")
+    
     else:
-        pass
+        print("Unknown CLient")
