@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 
 from account.form import ClientForm
-from card.form import CardForm
 from card.models import Card
 
 
@@ -27,7 +26,7 @@ def add_client(requests):
 
     if requests.method == 'GET':
 
-        return render(requests, 'add_client.html', {'ClientForm': client_form})
+        return render(requests, 'client_form.html', {'ClientForm': client_form})
 
     if requests.method == 'POST':
         if client_form.is_valid():

@@ -7,6 +7,8 @@ import qrcode
 from ecard.settings import BASE_DIR
 
 
+def generate_pdf():
+    pass
 
 def generate_QR_code(context):
 
@@ -38,12 +40,12 @@ def send_email_QR_code(context):
 
     if context:
 
-        with open(os.path.join(BASE_DIR, "card", "templates", "new_card.html"), 'r') as temp:
+        with open(os.path.join(BASE_DIR, "card", "templates", "email_card.html"), 'r') as temp:
             file = temp.read()
         file = file.replace("{{ context.card.profession }}", context["card"]["profession"])
         # render email text
 
-        email_plaintext_message = template.loader.get_template('new_card.txt').render(context)
+        email_plaintext_message = template.loader.get_template('email_card.txt').render(context)
 
         msg = EmailMultiAlternatives(
             # title:

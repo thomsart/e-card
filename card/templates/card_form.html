@@ -2,9 +2,9 @@
                             {{user_first_name}} {{user_last_name}}
                         {% else %}
                             {{user_email}}
-                        {% endif %}:</h1>
+                        {% endif %} :</h1>
 
-<form action="/clients/{{user_id}}/card/add/" method="post">
+<form action="/clients/{{user_id}}/card/" method="post">
     {% csrf_token %}
     {% for field in CardForm %}
         {{ field.label }}

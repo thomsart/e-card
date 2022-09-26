@@ -9,14 +9,13 @@ from card.utils.tools import *
 
 def add_card(requests, user_id):
 
-    card_form = CardForm(requests.POST)
     user = User.objects.get(id=user_id)
+    card_form = CardForm(requests.POST)
 
     if requests.method == 'GET':
-
         return render(
             requests,
-            'add_card.html',
+            'card_form.html',
             {
                 'user_id': str(user.id),
                 'user_first_name': user.first_name,
@@ -28,7 +27,7 @@ def add_card(requests, user_id):
 
     if requests.method == 'POST':
         if card_form.is_valid():
-            
+
             Card.objects.create(
                 profession=card_form.cleaned_data['profession'],
                 phone=card_form.cleaned_data['phone'],

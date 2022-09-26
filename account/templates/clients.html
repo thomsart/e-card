@@ -1,54 +1,48 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
     <head>
         <meta charset="utf-8"/>
-        <title>e-card</title>
-        <link href="statics/css/clients.css" rel="stylesheet" type="text/css" media="all"/>
+        <title>urvcard</title>
+        <link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css" media="all"/>
     </head>
 
     <body>
         <!-- Navigation-->
         <nav>
-            <div class="div_column">
-                <h1>Clients</h1>
-                <a href="/clients/add/">
-                    <button type="submit"><h3>New client</h3></button></a>
-            </div>
+            <h1>Clients de urvcard</h1>
+            <a href="/clients/add/">
+                <button type="submit"><h3>New client</h3></button></a>
         </nav>
 
         <div class="clients">
-            <div class="row" style="background-color:  #c4c125;">
+            <div class="row" style="background-color:  #c0cbfa;">
+
                 {% for couple in user_cards %}
+
                     <h2 class="card-title">
+                        Client 
                         {% if couple.user.first_name and couple.user.last_name %}
                             {{ couple.user.first_name }} {{ couple.user.last_name }}
                         {% else %}
                             {{ couple.user.email }}
                         {% endif %}
-                        <a href="/clients/{{couple.user.id}}/card/add/">
+                        <a href="/clients/{{couple.user.id}}/card/">
                             <button type="submit"><h3>Edit Card</h3></button></a>
                         <a href="/clients/{{couple.user.id}}/delete/">
                             <button type="submit"><h3>Delete client</h3></button></a>
                     </h2>
-                    {% for card in couple.cards %}
-                    <div class="col-auto-8 col-md-8" style="width: 22em; background-color: #da8e6d;">
-                        <div class="card" style="height: 25em; width: 20em; background-color: #25c48f;">
-                            <div class="card-body">
-                                <h3>{{ couple.user.first_name }} {{ couple.user.last_name }}</h3>
-                                <h3>{{ card.profession }}</h3>
-                                <img class="card-img-top" src={{client.card.photo}} alt="Card image cap" style="height: 14em;">
-                                <h3>{{ card.phone }}</h3>
-                                <h3>{{ couple.user.email }}</h3>
-                            </div>
+                    <section>
+                        <div class="cards" style="width: 22em; background-color: #da8e6d;">
+                            {% for card in couple.cards %}
+                                {% include "card.html" %}
+                                {% block card %}{% endblock %}
+                            {% endfor %}
                         </div>
-                        <a href="/clients/{{couple.user.id}}/card/{{card.id}}/delete/">
-                            <button type="submit"><h3>Delete card</h3></button></a>
-                        <a href="/clients/{{couple.user.id}}/card/{{card.id}}/email_link/">
-                            <button type="submit"><h3>Send email</h3></button></a>
-                    </div>
-                    {% endfor %}
+                    </section>
                     <h1>======================================================================================</h1>
+
                 {% endfor %}
             </div>
         </div>
@@ -57,4 +51,19 @@
         <footer id="footer">
         </footer>
     </body>
+
 </html>
+
+<!-- <div class="card" style="height: 25em; width: 20em; background-color: #25c48f;">
+                                <div class="card-body">
+                                    <h3>{{ couple.user.first_name }} {{ couple.user.last_name }}</h3>
+                                    <h3>{{ card.profession }}</h3>
+                                    <img class="card-img-top" src={{client.card.photo}} alt="Card image cap" style="height: 14em;">
+                                    <h3>{{ card.phone }}</h3>
+                                    <h3>{{ couple.user.email }}</h3>
+                                </div>
+                            </div>
+                            <a href="/clients/{{couple.user.id}}/card/{{card.id}}/delete/">
+                                <button type="submit"><h3>Delete card</h3></button></a>
+                            <a href="/clients/{{couple.user.id}}/card/{{card.id}}/email_link/">
+                                <button type="submit"><h3>Send email</h3></button></a> -->

@@ -1,0 +1,13 @@
+nav {
+    border: solid black 2px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border-radius: 10%;
+}
+
+section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}

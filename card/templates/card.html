@@ -1,0 +1,27 @@
+{% load static %}
+{% block card %}
+
+<link href="{% static 'css/card.css' %}" rel="stylesheet" type="text/css" media="all"/>
+
+<article class="card">
+
+    <div class="card-info">
+        <h3>{{ couple.user.first_name }} {{ couple.user.last_name }}</h3>
+        <h3>{{ card.profession }}</h3>
+    </div>
+    <div class="card-photo">
+        <img class="card-img-top" src={{client.card.photo}} alt="Card image cap" style="height: 14em;">
+    </div>
+    <div class="card-phone">
+        <h3>{{ card.phone }}</h3>
+    </div>
+    <div class="card-email">
+        <h3>{{ couple.user.email }}</h3>
+    </div>
+
+</article>
+<a href="/clients/{{couple.user.id}}/card/{{card.id}}/delete/">
+    <button type="submit"><h3>Delete card</h3></button></a>
+<a href="/clients/{{couple.user.id}}/card/{{card.id}}/email_link/">
+    <button type="submit"><h3>Send email</h3></button></a>
+{% endblock %}

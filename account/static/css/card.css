@@ -1,0 +1,17 @@
+article {
+    background-color: #1b4739;
+}
+
+
+.card {
+    background-color: #1b4739;
+    border: solid black 2px;
+    height: 25em; width: 20em;
+}
+
+.card-info {
+    background-color: #c7b723;
+}
+
+
+
