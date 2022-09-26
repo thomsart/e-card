@@ -18,7 +18,7 @@ def add_card(requests, user_id):
             requests,
             'add_card.html',
             {
-                'user_id': user_id,
+                'user_id': str(user.id),
                 'user_first_name': user.first_name,
                 'user_last_name': user.last_name,
                 'user_email': user.email,
@@ -35,7 +35,6 @@ def add_card(requests, user_id):
                 email=card_form.cleaned_data['email'],
                 user=user
             )
-
             return redirect('clients')
 
         else:
@@ -64,13 +63,27 @@ def send_email_link(requests, user_id, card_id):
     user = User.objects.get(id=user_id)
     card = Card.objects.get(id=card_id)
 
-    if user and card:
+    context = {
+        "user": {
+            "id": str(user.id),
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "email": user.email,
+        },
+        "card": {
+            "id": str(card.id),
+            "profession": card.profession
+        }
+    }
+
+    print(context)
+    if context:
         if requests.method == 'GET':
-            generate_QR_code(user_id, card_id)
-            email = send_email_QR_code(user_id, card_id)
+            generate_QR_code(context)
+            email = send_email_QR_code(context)
 
             if email:
-                delete_QR_code(user_id, card_id)
+                delete_QR_code(context)
 
                 return redirect('clients')
 

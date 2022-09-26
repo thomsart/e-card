@@ -1,20 +1,22 @@
 import os
 
-from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 from django import template
 import qrcode
 
 from ecard.settings import BASE_DIR
-from card.models import Card
 
 
 
-def generate_QR_code(user_id, card_id):
+def generate_QR_code(context):
 
     try:
-        img = qrcode.make("http://127.0.0.1:8000/" + "clients/" + user_id + "/card/" + card_id, box_size=20)
-        img.save(os.path.join("QR_codes", str(user_id) + '_' + str(card_id) + ".png"), 'PNG')
+        img = qrcode.make(
+            # voir comment on definis plus tard le path en fonction de l'OS
+            "http://127.0.0.1:8000/" + "clients/" + context["user"]["id"] + "/card/" + context["card"]["id"],
+            box_size=20
+        )
+        img.save(os.path.join("QR_codes", context["user"]["id"] + '_' + context["card"]["id"] + ".png"), 'PNG')
         return True
 
     except Exception:
@@ -22,46 +24,40 @@ def generate_QR_code(user_id, card_id):
 
 
 
-def delete_QR_code(user_id, card_id):
+def delete_QR_code(context):
 
-    os.remove(os.path.join("QR_codes", str(user_id) + '_' + str(card_id) + ".png"))
+    os.remove(os.path.join("QR_codes", context["user"]["id"] + '_' + context["card"]["id"] + ".png"))
 
 
 
-def send_email_QR_code(user_id, card_id):
+def send_email_QR_code(context):
     """
-    When a card is created, an e-mail is send to the client with a QR code
-    to retreive his new card.
+    When a card is created, an e-mail is sending to the client with a QR code
+    to retreive or share his new card.
     """
 
-    user = User.objects.get(id=user_id)
-    card = Card.objects.get(id=card_id)
-
-    if user and card:
+    if context:
 
         with open(os.path.join(BASE_DIR, "card", "templates", "new_card.html"), 'r') as temp:
             file = temp.read()
+        file = file.replace("{{ context.card.profession }}", context["card"]["profession"])
         # render email text
-        context = {
-            "user_first_name": user.first_name,
-            "user_last_name": user.last_name,
-        }
+
         email_plaintext_message = template.loader.get_template('new_card.txt').render(context)
 
         msg = EmailMultiAlternatives(
             # title:
-            "Bonjour " + str(user.first_name) + " " + str(user.last_name) + " !",
+            "Bonjour " + context["user"]["first_name"] + " " + context["user"]["last_name"] + " !",
             # message:
             email_plaintext_message,
             # from:
             "psychoid77@gmail.com",
             # to:
-            ["psychoid@hotmail.fr",
-            "psychoid77@gmail.com"]
+            [context["user"]["email"]]
         )
 
         msg.attach_alternative(file, "text/html")
-        msg.attach_file(os.path.join("QR_codes", str(user_id) + '_' + str(card_id) + ".png"))
+        msg.attach_file(os.path.join("QR_codes", context["user"]["id"] + '_' + context["card"]["id"] + ".png"))
         msg.send()
 
         return True
