@@ -1,13 +1,15 @@
 nav {
-    border: solid black 2px;
+    /* border: solid black 2px; */
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    border-radius: 10%;
+    border-radius: 10Px;
 }
 
 section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    /* border: solid black 2px; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 35px;
 }

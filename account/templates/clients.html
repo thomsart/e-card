@@ -34,12 +34,10 @@
                             <button type="submit"><h3>Delete client</h3></button></a>
                     </h2>
                     <section>
-                        <div class="cards" style="width: 22em; background-color: #da8e6d;">
-                            {% for card in couple.cards %}
-                                {% include "card.html" %}
-                                {% block card %}{% endblock %}
-                            {% endfor %}
-                        </div>
+                        {% for card in couple.cards %}
+                            {% include "card.html" %}
+                            {% block card %}{% endblock %}
+                        {% endfor %}
                     </section>
                     <h1>======================================================================================</h1>
 

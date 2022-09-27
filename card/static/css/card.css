@@ -1,0 +1,60 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    background-color: #1b4739;
+    /* border: solid black 1px; */
+    border-radius: 20px;
+    height: 550px;
+    width: 280px;
+}
+
+.card-name {
+    /* border: solid black 1px; */
+    padding-left: 20%;
+}
+
+.card-photo {
+    /* border: solid black 1px; */
+    height: 30%;
+    padding-left: 20%;
+    padding-right: 20%;
+
+}
+
+.card-img {
+    max-height: 100%;
+}
+
+.card-profession {
+    /* border: solid black 1px; */
+    height: 5%;
+    padding-left: 10%;
+}
+
+.card-text {
+    /* border: solid black 1px; */
+    height: 30%;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.card-phone {
+    /* border: solid black 1px; */
+    height: 5%;
+    padding-left: 10%;
+}
+
+.card-email {
+    /* border: solid black 1px; */
+    height: 5%;
+    padding-left: 10%;
+}
+
+.card-option {
+    /* border: solid black 1px; */
+    display: flex;
+    flex: column;
+    justify-content: space-around;
+    height: 10%;
+    padding-left: 10%;
+}
