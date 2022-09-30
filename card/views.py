@@ -55,18 +55,15 @@ def get_card(requests, user_id, card_id):
     card = Card.objects.get(id=card_id)
 
     if requests.method == 'GET' and user and card:
+ 
+        return render(requests, "card.html", {
+            "couple": {"user": user},
+            "card": card
+            }
+        )
 
-        context = {
-            "pdf_name": card.profession + "_" + user.first_name + "_" + user.last_name,
-            "name": user.first_name + " " + user.last_name,
-            "photo": card.photo,
-            "profession": card.profession,
-            "description": card.description,
-            "phone": card.phone,
-            "email": card.email
-        }
-
-        return
+    else:
+        return print("This Client or Card doesn't exist !")
 
 
 
