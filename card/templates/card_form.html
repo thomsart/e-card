@@ -4,7 +4,7 @@
                             {{user_email}}
                         {% endif %} :</h1>
 
-<form action="/clients/{{user_id}}/card/" method="post">
+<form action="/clients/{{user_id}}/card/" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% for field in CardForm %}
         {{ field.label }}

@@ -11,34 +11,32 @@
     <body>
         <!-- Navigation-->
         <nav>
-            <h1>Clients de urvcard</h1>
-            <a href="/clients/add/">
-                <button type="submit"><h3>New client</h3></button></a>
+            <h1>Clients de urvcard  <a href="/clients/add/">
+                <button type="submit">New client</button></a></h1>
         </nav>
 
+        <!-- Clients-->
         <div class="clients">
             <div class="row" style="background-color:  #c0cbfa;">
 
                 {% for couple in user_cards %}
 
-                    <h2 class="card-title">
-                        Client 
-                        {% if couple.user.first_name and couple.user.last_name %}
+                    <h2>{% if couple.user.first_name and couple.user.last_name %}
                             {{ couple.user.first_name }} {{ couple.user.last_name }}
                         {% else %}
                             {{ couple.user.email }}
                         {% endif %}
-                        <a href="/clients/{{couple.user.id}}/card/">
-                            <button type="submit"><h3>Edit Card</h3></button></a>
                         <a href="/clients/{{couple.user.id}}/delete/">
-                            <button type="submit"><h3>Delete client</h3></button></a>
-                    </h2>
+                            <button type="submit">Delete client</button></a></h2>
+                    <h2>Toutes ses cartes :</h2>
                     <section>
                         {% for card in couple.cards %}
                             {% include "card.html" %}
                             {% block card %}{% endblock %}
                         {% endfor %}
                     </section>
+                    <h2>Ajoutez lui une carte <a href="/clients/{{couple.user.id}}/card/">
+                        <button type="submit">New Card</button></a></h2>
                     <h1>======================================================================================</h1>
 
                 {% endfor %}

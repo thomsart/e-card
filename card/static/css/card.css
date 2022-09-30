@@ -1,7 +1,7 @@
 .card {
     display: flex;
     flex-direction: column;
-    background-color: #1b4739;
+    background-color: #309473;
     /* border: solid black 1px; */
     border-radius: 20px;
     height: 550px;
@@ -10,28 +10,31 @@
 
 .card-name {
     /* border: solid black 1px; */
-    padding-left: 20%;
+    height: 10%;
+    text-align: center;
 }
 
 .card-photo {
-    /* border: solid black 1px; */
+    /* border: solid black; */
     height: 30%;
-    padding-left: 20%;
-    padding-right: 20%;
-
+    text-align: auto;
+    /* padding-left: auto;
+    padding-right: auto; */
 }
 
 .card-img {
+    display: block;
+    margin: 0px auto;
     max-height: 100%;
 }
 
 .card-profession {
     /* border: solid black 1px; */
-    height: 5%;
+    height: 10%;
     padding-left: 10%;
 }
 
-.card-text {
+.card-description {
     /* border: solid black 1px; */
     height: 30%;
     padding-left: 10%;
@@ -40,21 +43,18 @@
 
 .card-phone {
     /* border: solid black 1px; */
-    height: 5%;
+    height: 10%;
     padding-left: 10%;
 }
 
 .card-email {
     /* border: solid black 1px; */
-    height: 5%;
+    height: 10%;
     padding-left: 10%;
 }
 
 .card-option {
     /* border: solid black 1px; */
-    display: flex;
-    flex: column;
-    justify-content: space-around;
-    height: 10%;
-    padding-left: 10%;
+    height: 5%;
+    padding-left: 20%;
 }

@@ -10,33 +10,30 @@
     </div>
 
     <div class="card-photo">
-        <img class="card-img" src={{client.card.photo}} alt="Card image cap" style="height: 14em;">
+        <img class="card-img" src="{{ card.photo.url }}" alt="{{ card.photo.name }}">
     </div>
 
     <div class="card-profession">
         <h3>{{ card.profession }}</h3>
     </div>
 
-    <div class="card-text">
-        <p>" Hey salut tout le monde j'ai envie de vous raconter une histoire qui ne vas 
-            durer que peu de temps mais qui malgres tout durera le temps qu'il faut car 
-            il ne fut pas oublier qu'il y a un temps pour tout ! "</p>
+    <div class="card-description">
+        <p>{{ card.description }}</p>
     </div>
 
     <div class="card-phone">
-        <h3>{{ card.phone }}</h3>
+        <a href="tel:{{ card.phone }}"><h3>{{ card.phone }}</h3></a>
     </div>
 
     <div class="card-email">
-        <h3>{{ couple.user.email }}</h3>
+        <a href="mailto:{{ couple.user.email }}"><h3>{{ couple.user.email }}</h3></a>
     </div>
 
     <div class="card-option">
-        <a href="/clients/{{couple.user.id}}/card/{{card.id}}/delete/">
-            <button type="submit"><h3>Delete card</h3></button></a>
-        
         <a href="/clients/{{couple.user.id}}/card/{{card.id}}/email_link/">
-            <button type="submit"><h3>Send email</h3></button></a>
+            <button type="submit">Send email</button></a>
+        <a href="/clients/{{couple.user.id}}/card/{{card.id}}/delete/">
+            <button type="submit">Delete card</button></a>
     </div>
 
 </article>

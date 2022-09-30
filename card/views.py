@@ -10,7 +10,7 @@ from card.utils.tools import *
 def add_card(requests, user_id):
 
     user = User.objects.get(id=user_id)
-    card_form = CardForm(requests.POST)
+    card_form = CardForm(requests.POST, requests.FILES)
 
     if requests.method == 'GET':
         return render(
@@ -27,11 +27,17 @@ def add_card(requests, user_id):
 
     if requests.method == 'POST':
         if card_form.is_valid():
+            # print(requests.POST)
+            # print(requests.FILES)
+            if card_form["description"] != "":
+                card_form.cleaned_data["description"] = formate_text(card_form.cleaned_data["description"])
 
             Card.objects.create(
-                profession=card_form.cleaned_data['profession'],
+                profession=card_form.cleaned_data['profession'].capitalize(),
                 phone=card_form.cleaned_data['phone'],
                 email=card_form.cleaned_data['email'],
+                description=card_form.cleaned_data['description'],
+                photo=card_form.cleaned_data['photo'],
                 user=user
             )
             return redirect('clients')
@@ -44,7 +50,23 @@ def add_card(requests, user_id):
 
 
 def get_card(requests, user_id, card_id):
-    pass
+
+    user = User.objects.get(id=user_id)
+    card = Card.objects.get(id=card_id)
+
+    if requests.method == 'GET' and user and card:
+
+        context = {
+            "pdf_name": card.profession + "_" + user.first_name + "_" + user.last_name,
+            "name": user.first_name + " " + user.last_name,
+            "photo": card.photo,
+            "profession": card.profession,
+            "description": card.description,
+            "phone": card.phone,
+            "email": card.email
+        }
+
+        return
 
 
 
@@ -75,19 +97,15 @@ def send_email_link(requests, user_id, card_id):
         }
     }
 
-    print(context)
     if context:
         if requests.method == 'GET':
-            generate_QR_code(context)
-            email = send_email_QR_code(context)
-
-            if email:
+            if generate_QR_code(context):   
+                send_email_QR_code(context)
                 delete_QR_code(context)
 
                 return redirect('clients')
 
         else:
             print("Email not send")
-    
     else:
         print("Unknown CLient")

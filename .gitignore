@@ -1,4 +1,4 @@
 env
 __pycache__/
 ecard/local.py
-QR_codes/*
+uploads/*
