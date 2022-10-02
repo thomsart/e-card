@@ -11,13 +11,13 @@
     <body>
         <!-- Navigation-->
         <nav>
-            <h1>Clients de urvcard  <a href="/clients/add/">
+            <h1>Clients de URVCard  <a href="/clients/add/">
                 <button type="submit">New client</button></a></h1>
         </nav>
 
         <!-- Clients-->
         <div class="clients">
-            <div class="row" style="background-color:  #c0cbfa;">
+            <div class="clients-row" style="background-color:  #c0cbfa;">
 
                 {% for couple in user_cards %}
 
@@ -26,8 +26,10 @@
                         {% else %}
                             {{ couple.user.email }}
                         {% endif %}
+                        <a href="/clients/{{couple.user.id}}/desactive/">
+                            <button type="submit">Desactive</button></a></h2>
                         <a href="/clients/{{couple.user.id}}/delete/">
-                            <button type="submit">Delete client</button></a></h2>
+                            <button type="submit">Delete</button></a></h2>
                     <h2>Toutes ses cartes :</h2>
                     <section>
                         {% for card in couple.cards %}

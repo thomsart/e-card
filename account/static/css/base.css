@@ -1,7 +1,11 @@
 section {
     /* border: solid black 2px; */
-    display: flex;
+    /* display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    gap: 35px;
+    gap: 35px; */
+
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 40px;
 }

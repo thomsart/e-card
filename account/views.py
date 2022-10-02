@@ -50,6 +50,14 @@ def add_client(requests):
             return redirect('add_client')
 
 
+def desactive_client(requests, user_id):
+
+    if requests.method == 'GET' and user_id:
+        # User.objects.filter(id=user_id).delete()
+
+        return redirect('clients')
+
+
 def delete_client(requests, user_id):
 
     if requests.method == 'GET' and user_id:

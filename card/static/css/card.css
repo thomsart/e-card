@@ -1,8 +1,8 @@
 .card {
+    /* border: solid black 1px; */
     display: flex;
     flex-direction: column;
     background-color: #309473;
-    /* border: solid black 1px; */
     border-radius: 20px;
     height: 550px;
     width: 280px;
@@ -43,19 +43,19 @@
 }
 
 .card-phone {
-    border: solid black 1px;
+    /* border: solid black 1px; */
     height: 10%;
     padding-left: 10%;
 }
 
 .card-email {
-    border: solid black 1px;
+    /* border: solid black 1px; */
     height: 10%;
     padding-left: 10%;
 }
 
 .card-option {
-    border: solid black 1px;
+    /* border: solid black 1px; */
     height: 5%;
     padding-left: 20%;
 }
