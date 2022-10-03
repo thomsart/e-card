@@ -93,11 +93,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_URL = "uploads/"
+MEDIA_URL = "/uploads/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
 
 # Default primary key field type

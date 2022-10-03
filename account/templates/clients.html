@@ -26,17 +26,27 @@
                         {% else %}
                             {{ couple.user.email }}
                         {% endif %}
-                        <a href="/clients/{{couple.user.id}}/desactive/">
-                            <button type="submit">Desactive</button></a></h2>
+
+                        {% if couple.user.is_active %}
+                            <a href="/clients/{{couple.user.id}}/desactivate/">
+                                <button type="submit" style="background-color: rgb(119, 255, 77);">Desactivate</button></a>
+                        {% else %}
+                            <a href="/clients/{{couple.user.id}}/desactivate/">
+                                <button type="submit" style="background-color: red;">Reactivate</button></a>
+                        {% endif %}
+
                         <a href="/clients/{{couple.user.id}}/delete/">
-                            <button type="submit">Delete</button></a></h2>
-                    <h2>Toutes ses cartes :</h2>
+                            <button type="submit" style="background-color: red;">Delete client</button></a><br><br>
+                    Toutes ses cartes :
+                    </h2>
+
                     <section>
                         {% for card in couple.cards %}
                             {% include "card.html" %}
                             {% block card %}{% endblock %}
                         {% endfor %}
                     </section>
+
                     <h2>Ajoutez lui une carte <a href="/clients/{{couple.user.id}}/card/">
                         <button type="submit">New Card</button></a></h2>
                     <h1>======================================================================================</h1>

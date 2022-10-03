@@ -1,5 +1,12 @@
+# import os
 from django.shortcuts import render, redirect
+from django.template.loader import get_template, render_to_string
+from django.conf import settings
+from django.contrib.staticfiles import finders
+from django.http import HttpResponse
 from django.contrib.auth.models import User
+
+from xhtml2pdf import pisa
 
 from card.form import CardForm
 from card.models import Card
@@ -35,7 +42,7 @@ def add_card(requests, user_id):
             Card.objects.create(
                 profession=card_form.cleaned_data['profession'].capitalize(),
                 phone=card_form.cleaned_data['phone'],
-                email=card_form.cleaned_data['email'],
+                email=user.email,
                 description=card_form.cleaned_data['description'],
                 photo=card_form.cleaned_data['photo'],
                 user=user
@@ -49,21 +56,82 @@ def add_card(requests, user_id):
 
 
 
+# def get_card(requests, user_id, card_id):
+
+#     user = User.objects.get(id=user_id)
+#     card = Card.objects.get(id=card_id)
+
+#     if requests.method == 'GET' and user.is_active and card:
+#         # html = get_template("card.html")
+#         # html = get_template("card.html", request=None, context={"couple": {"user": user}, "card": card})
+#         # html = template.loader.get_template("card.html").render({"couple": {"user": user}, "card": card})
+#         html = "<html><body><p>To PDF or not to PDF</p></body></html>"
+#         pdf = generate_pdf(user_id + "_" + card_id)
+
+#         print(html)
+#         print(type(html))
+
+#         if html and pdf:
+#             return convert_html_to_pdf(html, pdf)
+
+#     else:
+#         return print("This Client or Card doesn't exist !")
+
+
+
+def link_callback(uri, rel):
+    """
+    Convert HTML URIs to absolute system paths so xhtml2pdf can access those resources.
+    """
+
+    result = finders.find(uri)
+
+    if result:
+        if not isinstance(result, (list, tuple)):
+                result = [result]
+        result = list(os.path.realpath(path) for path in result)
+        path=result[0]
+    else:
+        sUrl = settings.MEDIA_URL        # Typically /static/
+        sRoot = settings.MEDIA_ROOT      # Typically /home/userX/project_static/
+        mUrl = settings.MEDIA_URL         # Typically /uploads/
+        mRoot = settings.MEDIA_ROOT       # Typically /home/userX/project_static/uploads/
+
+        if uri.startswith(mUrl):
+            path = os.path.join(mRoot, uri.replace(mUrl, ""))
+        elif uri.startswith(sUrl):
+            path = os.path.join(sRoot, uri.replace(sUrl, ""))
+        else:
+            return uri
+
+    # make sure that file exists
+    if not os.path.isfile(path):
+        raise Exception('media URI must start with %s or %s' % (sUrl, mUrl))
+
+    return path
+
+
+
 def get_card(requests, user_id, card_id):
 
     user = User.objects.get(id=user_id)
     card = Card.objects.get(id=card_id)
+    context = {"couple": {"user": user}, "card": card}
 
-    if requests.method == 'GET' and user and card:
- 
-        return render(requests, "card.html", {
-            "couple": {"user": user},
-            "card": card
-            }
-        )
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename=' + card.profession + '_' +  user.first_name + '_' + user.last_name
+    # find the template and render it.
+    template = get_template("pdf_card.html")
+    html = template.render(context)
 
-    else:
-        return print("This Client or Card doesn't exist !")
+    # create a pdf
+    pisa_status = pisa.CreatePDF(html, link_callback=link_callback, dest=response)
+    # if error then show some funny view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+
+    return response
 
 
 

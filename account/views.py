@@ -22,7 +22,6 @@ def clients(requests):
             couple['cards'] = Card.objects.filter(user_id=user.id)
             context['user_cards'].append(couple)
 
-        print(context)
         return render(requests, 'clients.html', context)
 
 
@@ -42,7 +41,7 @@ def add_client(requests):
                 last_name=client_form.cleaned_data['last_name'].capitalize(),
                 email=client_form.cleaned_data['email'],
                 username=client_form.cleaned_data['email'],
-                password='1234+'+str(client_form.cleaned_data['email'])+'-4321'
+                password='1234+' + client_form.cleaned_data['email'] + '-4321'
             )
 
             return redirect('clients')
@@ -50,10 +49,16 @@ def add_client(requests):
             return redirect('add_client')
 
 
-def desactive_client(requests, user_id):
+def desactivate_reactivate_client(requests, user_id):
 
     if requests.method == 'GET' and user_id:
-        # User.objects.filter(id=user_id).delete()
+        user = User.objects.get(id=user_id)
+        print(user)
+        print(type(user))
+        if user.is_active == True:
+            User.objects.filter(id=user_id).update(is_active=False)
+        else:
+            User.objects.filter(id=user_id).update(is_active=True)
 
         return redirect('clients')
 

@@ -1,0 +1,22 @@
+<article style="display: flex; flex-direction: column; border-radius: 20px; height: 550px; width: 280px;">
+
+    <div style="height: 5%; text-align: center;">
+        <h3>{{ couple.user.first_name }} {{ couple.user.last_name }}</h3></div>
+
+    <div style="height: 10%; text-align: center;">
+        <h3>{{ card.profession }}</h3></div>
+
+    <div style="height: 30%; text-align: auto;">
+        <img class="card-img" src="{{ card.photo.url }}" alt="{{ card.photo.name }}"
+        style="display: block; margin: 0px auto; max-height: 100%; border-radius: 10px;"></div>
+
+    <div style="height: 25%; padding-left: 10%; padding-right: 10%;">
+        <p>{{ card.description }}</p></div>
+
+    <div style="height: 10%; padding-left: 10%;">
+        <a href="tel:{{ card.phone }}"><h3>{{ card.phone }}</h3></a></div>
+
+    <div style="height: 10%; padding-left: 10%;">
+        <a href="mailto:{{ couple.user.email }}"><h3>{{ couple.user.email }}</h3></a></div>
+
+</article>

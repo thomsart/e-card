@@ -5,7 +5,7 @@ from django import template
 import qrcode
 from fpdf import FPDF
 
-from ecard.settings import BASE_DIR, MEDIA_ROOT, ALLOWED_HOSTS
+from ecard.settings import BASE_DIR, MEDIA_ROOT, ALLOWED_HOSTS, MEDIA_URL
 
 
 
@@ -32,48 +32,44 @@ def formate_text(text: str):
 
 
 
-# def generate_pdf(context):
+def generate_pdf(pdf_name):
 
-#     mon_pdf = FPDF()
-#     mon_pdf.add_page()
-#     mon_pdf.set_margins(left=20.0, right=20.0, top=50)
-#     mon_pdf.set_font("Arial", size=40)
-#     # each cell represente a square in wich we put text or photo
-#     mon_pdf.ln(h=10)
-#     mon_pdf.ln(h=10)
-#     mon_pdf.cell(0, 10, txt=context["name"], ln=1, align='L') #, border=1
-#     mon_pdf.ln(h=10)
-#     mon_pdf.cell(0, 10, txt=context["profession"], ln=1)
-#     mon_pdf.ln(h=10)
+    mon_pdf = FPDF()
+    mon_pdf.add_page()
 
-#     # image
-#     mon_pdf.image("PDFs/photo_chen.jpg" , x=None, y=None, w=50, h=80, type='JPG')
-#     mon_pdf.ln(h=10)
+    # mon_pdf.set_margins(left=20.0, right=20.0, top=50)
+    # mon_pdf.set_font("Arial", size=40)
+    # # each cell represente a square in wich we put text or photo
+    # mon_pdf.ln(h=10)
+    # mon_pdf.ln(h=10)
+    # mon_pdf.cell(0, 10, txt=context["name"], ln=1, align='L') #, border=1
+    # mon_pdf.ln(h=10)
+    # mon_pdf.cell(0, 10, txt=context["profession"], ln=1)
+    # mon_pdf.ln(h=10)
+    # # image
+    # mon_pdf.image("PDFs/photo_chen.jpg" , x=None, y=None, w=50, h=80, type='JPG')
+    # mon_pdf.ln(h=10)
+    # # description text
+    # mon_pdf.set_font("Arial", size=20)
+    # text = context["description"].split("|")
+    # for part in text:
+    #     mon_pdf.cell(0, 10, txt=part, ln=1)
+    # mon_pdf.ln(h=30)
+    # # links
+    # mon_pdf.set_font("Arial", size=40)
+    # mon_pdf.add_link()
+    # mon_pdf.ln(h=10)
+    # mon_pdf.link(x=0, y=150, w=80, h=10, link=context["email"])
+    # mon_pdf.ln(h=10)
+    # mon_pdf.write(10, context["email"], link="https://www.thomsart.tech")
+    # mon_pdf.ln(h=10)
 
-#     # description text
-#     mon_pdf.set_font("Arial", size=20)
-#     text = context["description"].split("|")
-#     for part in text:
-#         mon_pdf.cell(0, 10, txt=part, ln=1)
+    return mon_pdf.output(MEDIA_URL + pdf_name + ".pdf")
 
-#     mon_pdf.ln(h=30)
 
-#     # links
-#     phone = context["phone"]
-#     mon_pdf.set_font("Arial", size=40)
-#     mon_pdf.add_link()
-#     mon_pdf.ln(h=10)
-#     mon_pdf.link(x=0, y=150, w=80, h=10, link=context["email"])
-#     mon_pdf.ln(h=10)
-#     mon_pdf.write(10, context["email"], link="https://www.thomsart.tech")
-#     mon_pdf.ln(h=10)
 
-#     mon_pdf.output(MEDIA_URL + context['pdf_name'] + ".pdf")
-
-#     return mon_pdf
-
-# def delete_pdf():
-#     pass
+def delete_pdf():
+    pass
 
 
 
