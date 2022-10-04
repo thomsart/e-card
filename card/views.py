@@ -81,19 +81,20 @@ def add_card(requests, user_id):
 
 def link_callback(uri, rel):
     """
-    Convert HTML URIs to absolute system paths so xhtml2pdf can access those resources.
+    Convert HTML URIs to absolute system paths so xhtml2pdf can access those
+    resources.
     """
 
     result = finders.find(uri)
 
     if result:
         if not isinstance(result, (list, tuple)):
-                result = [result]
+            result = [result]
         result = list(os.path.realpath(path) for path in result)
         path=result[0]
     else:
-        sUrl = settings.MEDIA_URL        # Typically /static/
-        sRoot = settings.MEDIA_ROOT      # Typically /home/userX/project_static/
+        sUrl = settings.STATIC_URL        # Typically /static/
+        sRoot = settings.STATIC_ROOT      # Typically /home/userX/project_static/
         mUrl = settings.MEDIA_URL         # Typically /uploads/
         mRoot = settings.MEDIA_ROOT       # Typically /home/userX/project_static/uploads/
 
@@ -124,7 +125,6 @@ def get_card(requests, user_id, card_id):
     # find the template and render it.
     template = get_template("pdf_card.html")
     html = template.render(context)
-
     # create a pdf
     pisa_status = pisa.CreatePDF(html, link_callback=link_callback, dest=response)
     # if error then show some funny view

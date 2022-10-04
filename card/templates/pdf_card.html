@@ -1,22 +1,86 @@
-<article style="display: flex; flex-direction: column; border-radius: 20px; height: 550px; width: 280px;">
+<html>
 
-    <div style="height: 5%; text-align: center;">
-        <h3>{{ couple.user.first_name }} {{ couple.user.last_name }}</h3></div>
+    <head>
 
-    <div style="height: 10%; text-align: center;">
-        <h3>{{ card.profession }}</h3></div>
+        <style>
 
-    <div style="height: 30%; text-align: auto;">
-        <img class="card-img" src="{{ card.photo.url }}" alt="{{ card.photo.name }}"
-        style="display: block; margin: 0px auto; max-height: 100%; border-radius: 10px;"></div>
+            @page {
+                size: a7 portrait;
 
-    <div style="height: 25%; padding-left: 10%; padding-right: 10%;">
-        <p>{{ card.description }}</p></div>
+                @frame names {
+                    /* -pdf-frame-border: 1; */
+                    -pdf-frame-content: names;
+                    left: 30pt; width: 150pt; top: 20pt; height: 15pt;
+                }
 
-    <div style="height: 10%; padding-left: 10%;">
-        <a href="tel:{{ card.phone }}"><h3>{{ card.phone }}</h3></a></div>
+                @frame profession {
+                    /* -pdf-frame-border: 1; */
+                    -pdf-frame-content: profession;
+                    left: 30pt; width: 150pt; top: 35pt; height: 15pt;
+                }
 
-    <div style="height: 10%; padding-left: 10%;">
-        <a href="mailto:{{ couple.user.email }}"><h3>{{ couple.user.email }}</h3></a></div>
+                @frame photo {
+                    /* -pdf-frame-border: 1; */
+                    -pdf-frame-content: photo;
+                    text-align: center;
+                    left: 30pt; width: 150pt; top: 50pt; height: 120pt;
+                }
 
-</article>
+                @frame description {
+                    /* -pdf-frame-border: 1; */
+                    -pdf-frame-content: description;
+                    text-align: center;
+                    left: 30pt; width: 150pt; top: 170pt; height: 70pt;
+                }
+
+                @frame phone {
+                    /* -pdf-frame-border: 1; */
+                    -pdf-frame-content: phone;
+                    left: 30pt; width: 150pt; top: 245pt; height: 15pt;
+                }
+
+                @frame email {
+                    /* -pdf-frame-border: 1; */
+                    -pdf-frame-content: email;
+                    left: 30pt; width: 150pt; top: 260pt; height: 15pt;
+                }
+
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <div id="names" style="text-align: center;">
+            <h3>{{ couple.user.first_name }} {{ couple.user.last_name }}</h3>
+        </div>
+
+        <div id="profession" style="text-align: center;"> 
+            <h3>{{ card.profession }}</h3>
+        </div>
+
+        <div id="photo" style="text-align: center;">
+            <img class="card-img" src="{{ card.photo }}">
+        </div>
+
+        <div id="description">
+            <p>{{ card.description }}</p>
+        </div>
+
+        <div id="phone" style="text-align: center;">
+            <a href="tel:{{ card.phone }}">
+                <h3>{{ card.phone }}</h3>
+            </a>
+        </div>
+
+        <div id="email" style="text-align: center;">
+            <a href="mailto:{{ couple.user.email }}">
+                <h3>{{ couple.user.email }}</h3>
+            </a>
+        </div>
+
+    </body>
+
+</html>
