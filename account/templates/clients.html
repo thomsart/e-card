@@ -12,7 +12,7 @@
         <!-- Navigation-->
         <nav>
             <h1>Clients de URVCard  <a href="/clients/add/">
-                <button type="submit" style="background-color: rgb(77, 199, 255);">New client</button></a></h1>
+                <button type="submit" style="background-color: rgb(0, 174, 255);">New client</button></a></h1>
         </nav>
 
         <!-- Clients-->
@@ -31,16 +31,16 @@
                     </h2>
                     <h2>{% if couple.user.is_active %}
                             <a href="/clients/{{couple.user.id}}/card/">
-                                <button type="submit" style="background-color: rgb(77, 199, 255);">New Card</button></a>
+                                <button type="submit" style="background-color: rgb(70, 253, 53);">New Card</button></a>
                             <a href="/clients/{{couple.user.id}}/desactivate/">
-                                <button type="submit" style="background-color: rgb(119, 255, 77);">Desactivate</button></a>
+                                <button type="submit" style="background-color: rgb(255, 252, 51);">Desactivate</button></a>
                         {% else %}
                             <a href="/clients/{{couple.user.id}}/desactivate/">
-                                <button type="submit" style="background-color: red;">Reactivate</button></a>
+                                <button type="submit" style="background-color: rgb(255, 0, 0);">Reactivate</button></a>
                         {% endif %}
 
                         <a href="/clients/{{couple.user.id}}/delete/">
-                            <button type="submit" style="background-color: red;">Delete client</button></a><br><br>
+                            <button type="submit" style="background-color: rgb(255, 0, 0);">Delete client</button></a><br><br>
                     </h2>
 
                 </div>

@@ -10,6 +10,7 @@ from xhtml2pdf import pisa
 from card.form import CardForm
 from card.models import Card
 from card.utils.tools import *
+from ecard.settings import MEDIA_URL
 
 
 
@@ -122,7 +123,9 @@ def get_card(requests, user_id, user_email, card_id):
 def delete_card(requests, user_id, card_id):
 
     if requests.method == 'GET' and user_id and card_id:
-        Card.objects.filter(id=card_id, user_id=user_id).delete()
+        card = Card.objects.get(id=card_id, user_id=user_id)
+        os.remove(os.path.join(MEDIA_ROOT, str(card.photo)))
+        card.delete()
 
         return redirect('clients')
 

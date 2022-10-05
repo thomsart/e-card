@@ -1,12 +1,9 @@
-import os
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.conf import settings
 
 from account.form import ClientForm
 from card.models import Card
 
-# Create your views here.
 
 
 def clients(requests):
@@ -14,7 +11,7 @@ def clients(requests):
     if requests.method == 'GET':
 
         context = {"user_cards": []}
-        users = User.objects.all().order_by('-date_joined')
+        users = User.objects.filter(is_superuser=False, is_staff=False).all().order_by('-date_joined')
 
         for user in users:
             couple = {}
@@ -23,6 +20,7 @@ def clients(requests):
             context['user_cards'].append(couple)
 
         return render(requests, 'clients.html', context)
+
 
 
 def add_client(requests):
@@ -51,6 +49,7 @@ def add_client(requests):
             return redirect('add_client')
 
 
+
 def desactivate_reactivate_client(requests, user_id):
 
     if requests.method == 'GET' and user_id:
@@ -63,6 +62,7 @@ def desactivate_reactivate_client(requests, user_id):
             User.objects.filter(id=user_id).update(is_active=True)
 
         return redirect('clients')
+
 
 
 def delete_client(requests, user_id):
