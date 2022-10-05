@@ -1,4 +1,5 @@
 # import os
+import email
 from django.shortcuts import render, redirect
 from django.template.loader import get_template, render_to_string
 from django.conf import settings
@@ -37,13 +38,13 @@ def add_card(requests, user_id):
             # print(requests.POST)
             # print(requests.FILES)
             if card_form["description"] != "":
-                card_form.cleaned_data["description"] = formate_text(card_form.cleaned_data["description"])
+                description = '"' + card_form.cleaned_data["description"] + '"'
 
             Card.objects.create(
                 profession=card_form.cleaned_data['profession'].capitalize(),
                 phone=card_form.cleaned_data['phone'],
                 email=user.email,
-                description=card_form.cleaned_data['description'],
+                description=description,
                 photo=card_form.cleaned_data['photo'],
                 user=user
             )
@@ -53,29 +54,6 @@ def add_card(requests, user_id):
             print("Card not created")
 
             return redirect('add_card', user_id)
-
-
-
-# def get_card(requests, user_id, card_id):
-
-#     user = User.objects.get(id=user_id)
-#     card = Card.objects.get(id=card_id)
-
-#     if requests.method == 'GET' and user.is_active and card:
-#         # html = get_template("card.html")
-#         # html = get_template("card.html", request=None, context={"couple": {"user": user}, "card": card})
-#         # html = template.loader.get_template("card.html").render({"couple": {"user": user}, "card": card})
-#         html = "<html><body><p>To PDF or not to PDF</p></body></html>"
-#         pdf = generate_pdf(user_id + "_" + card_id)
-
-#         print(html)
-#         print(type(html))
-
-#         if html and pdf:
-#             return convert_html_to_pdf(html, pdf)
-
-#     else:
-#         return print("This Client or Card doesn't exist !")
 
 
 
@@ -113,25 +91,32 @@ def link_callback(uri, rel):
 
 
 
-def get_card(requests, user_id, card_id):
+def get_card(requests, user_id, user_email, card_id):
 
-    user = User.objects.get(id=user_id)
+    user_email = user_email.replace("_", ".")
+    user = User.objects.get(id=user_id, email=user_email)
     card = Card.objects.get(id=card_id)
-    context = {"couple": {"user": user}, "card": card}
 
-    # Create a Django response object, and specify content_type as pdf
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename=' + card.profession + '_' +  user.first_name + '_' + user.last_name
-    # find the template and render it.
-    template = get_template("pdf_card.html")
-    html = template.render(context)
-    # create a pdf
-    pisa_status = pisa.CreatePDF(html, link_callback=link_callback, dest=response)
-    # if error then show some funny view
-    if pisa_status.err:
-       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    if requests.method == "GET" and user.is_active and card:
 
-    return response
+        context = {"couple": {"user": user}, "card": card}
+        # Create a Django response object, and specify content_type as pdf
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename=' + card.profession + '_' +  user.first_name + '_' + user.last_name
+        # find the template and render it.
+        template = get_template("pdf_card.html")
+        html = template.render(context)
+        # create a pdf
+        pisa_status = pisa.CreatePDF(html, link_callback=link_callback, dest=response)
+        # if error then show some funny view
+        if pisa_status.err:
+            return HttpResponse('We had some errors <pre>' + html + '</pre>')
+
+        return response
+
+    else:
+
+        return print("No access to this card")
 
 
 
@@ -149,28 +134,31 @@ def send_email_link(requests, user_id, card_id):
     user = User.objects.get(id=user_id)
     card = Card.objects.get(id=card_id)
 
-    context = {
-        "user": {
-            "id": str(user.id),
-            "first_name": user.first_name,
-            "last_name": user.last_name,
-            "email": user.email,
-        },
-        "card": {
-            "id": str(card.id),
-            "profession": card.profession
+    if requests.method == 'GET' and user.is_active and card:
+
+        context = {
+            "user": {
+                "id": str(user.id),
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "email": user.email,
+            },
+            "card": {
+                "id": str(card.id),
+                "profession": card.profession
+            }
         }
-    }
 
-    if context:
-        if requests.method == 'GET':
-            if generate_QR_code(context):   
-                send_email_QR_code(context)
-                delete_QR_code(context)
+        if generate_QR_code(context):   
+            send_email_QR_code(context)
+            delete_QR_code(context)
 
-                return redirect('clients')
+            return redirect('clients')
 
         else:
             print("Email not send")
+            return redirect('clients')
+
     else:
-        print("Unknown CLient")
+        print("Unknown or Disactive CLient")
+        return redirect('clients')
