@@ -24,14 +24,15 @@
     /* border: solid black; */
     height: 30%;
     text-align: auto;
-    /* padding-left: auto;
-    padding-right: auto; */
+    padding-left: 10%;
+    padding-right: 10%;
 }
 
 .card-img {
     display: block;
     margin: 0px auto;
     max-height: 100%;
+    max-width: 100%;
     border-radius: 10px;
 }
 
