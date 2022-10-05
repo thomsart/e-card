@@ -1,7 +1,5 @@
-# import os
-import email
 from django.shortcuts import render, redirect
-from django.template.loader import get_template, render_to_string
+from django.template.loader import get_template
 from django.conf import settings
 from django.contrib.staticfiles import finders
 from django.http import HttpResponse
@@ -21,6 +19,7 @@ def add_card(requests, user_id):
     card_form = CardForm(requests.POST, requests.FILES)
 
     if requests.method == 'GET':
+
         return render(
             requests,
             'card_form.html',
@@ -38,7 +37,7 @@ def add_card(requests, user_id):
             # print(requests.POST)
             # print(requests.FILES)
             if card_form["description"] != "":
-                description = '"' + card_form.cleaned_data["description"] + '"'
+                description = '" ' + card_form.cleaned_data["description"] + ' "'
 
             Card.objects.create(
                 profession=card_form.cleaned_data['profession'].capitalize(),
@@ -71,21 +70,21 @@ def link_callback(uri, rel):
         result = list(os.path.realpath(path) for path in result)
         path=result[0]
     else:
-        sUrl = settings.STATIC_URL        # Typically /static/
-        sRoot = settings.STATIC_ROOT      # Typically /home/userX/project_static/
-        mUrl = settings.MEDIA_URL         # Typically /uploads/
-        mRoot = settings.MEDIA_ROOT       # Typically /home/userX/project_static/uploads/
+        static_url = settings.STATIC_URL        # Typically /static/
+        static_root = settings.STATIC_ROOT      # Typically /home/userX/project_static/
+        media_url = settings.MEDIA_URL         # Typically /uploads/
+        media_root = settings.MEDIA_ROOT       # Typically /home/userX/project_static/uploads/
 
-        if uri.startswith(mUrl):
-            path = os.path.join(mRoot, uri.replace(mUrl, ""))
-        elif uri.startswith(sUrl):
-            path = os.path.join(sRoot, uri.replace(sUrl, ""))
+        if uri.startswith(media_url):
+            path = os.path.join(media_root, uri.replace(media_url, ""))
+        elif uri.startswith(static_url):
+            path = os.path.join(static_root, uri.replace(static_url, ""))
         else:
             return uri
 
     # make sure that file exists
     if not os.path.isfile(path):
-        raise Exception('media URI must start with %s or %s' % (sUrl, mUrl))
+        raise Exception('media URI must start with %s or %s' % (static_url, media_url))
 
     return path
 

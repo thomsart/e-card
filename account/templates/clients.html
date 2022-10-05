@@ -12,22 +12,26 @@
         <!-- Navigation-->
         <nav>
             <h1>Clients de URVCard  <a href="/clients/add/">
-                <button type="submit">New client</button></a></h1>
+                <button type="submit" style="background-color: rgb(77, 199, 255);">New client</button></a></h1>
         </nav>
 
         <!-- Clients-->
         <div class="clients">
-            <div class="clients-row" style="background-color:  #c0cbfa;">
 
-                {% for couple in user_cards %}
+            {% for couple in user_cards %}
 
-                    <h2>{% if couple.user.first_name and couple.user.last_name %}
+                <div class="clients-menu">
+
+                    <h2>Toutes les cartes de 
+                        {% if couple.user.first_name and couple.user.last_name %}
                             {{ couple.user.first_name }} {{ couple.user.last_name }}
                         {% else %}
                             {{ couple.user.email }}
                         {% endif %}
-
-                        {% if couple.user.is_active %}
+                    </h2>
+                    <h2>{% if couple.user.is_active %}
+                            <a href="/clients/{{couple.user.id}}/card/">
+                                <button type="submit" style="background-color: rgb(77, 199, 255);">New Card</button></a>
                             <a href="/clients/{{couple.user.id}}/desactivate/">
                                 <button type="submit" style="background-color: rgb(119, 255, 77);">Desactivate</button></a>
                         {% else %}
@@ -37,22 +41,21 @@
 
                         <a href="/clients/{{couple.user.id}}/delete/">
                             <button type="submit" style="background-color: red;">Delete client</button></a><br><br>
-                    Toutes ses cartes :
                     </h2>
 
-                    <section>
-                        {% for card in couple.cards %}
-                            {% include "card.html" %}
-                            {% block card %}{% endblock %}
-                        {% endfor %}
-                    </section>
+                </div>
 
-                    <h2>Ajoutez lui une carte <a href="/clients/{{couple.user.id}}/card/">
-                        <button type="submit">New Card</button></a></h2>
-                    <h1>======================================================================================</h1>
+                <section>
+                    {% for card in couple.cards %}
+                        {% include "card.html" %}
+                        {% block card %}{% endblock %}
+                    {% endfor %}
+                </section>
 
-                {% endfor %}
-            </div>
+                <div class="blank"><br><br><br></div>
+
+            {% endfor %}
+            
         </div>
 
         <!-- Footer-->

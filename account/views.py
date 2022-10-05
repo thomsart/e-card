@@ -35,7 +35,7 @@ def add_client(requests):
 
     if requests.method == 'POST':
         if client_form.is_valid():
-            
+
             User.objects.create(
                 first_name=client_form.cleaned_data['first_name'].capitalize(),
                 last_name=client_form.cleaned_data['last_name'].capitalize(),
@@ -45,7 +45,9 @@ def add_client(requests):
             )
 
             return redirect('clients')
+
         else:
+
             return redirect('add_client')
 
 
