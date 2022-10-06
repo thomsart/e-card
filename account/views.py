@@ -1,11 +1,52 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 
-from account.form import ClientForm
+from account.form import ClientForm, LoginForm
 from card.models import Card
 
 
 
+def user_login(requests):
+
+    login_form = LoginForm(requests.POST)
+
+    if requests.method == 'GET':
+
+        return render(requests, 'login.html', {'login_form': LoginForm})
+
+    if requests.method == 'POST':
+        if login_form.is_valid():
+            connection = authenticate(
+                username=login_form.cleaned_data["email"], password=login_form.cleaned_data["password"]
+            )
+
+            if connection:
+                login(requests, connection)
+
+                return redirect('clients')
+
+            else:
+                print("########### dans le cul lulu !!!")
+
+
+
+def user_logout(requests):
+
+    logout(requests)
+
+    return redirect("user_login")
+
+
+
+@login_required
+def user_register(requests):
+    return redirect('user_login')
+
+
+
+@login_required
 def clients(requests):
 
     if requests.method == 'GET':
@@ -21,8 +62,11 @@ def clients(requests):
 
         return render(requests, 'clients.html', context)
 
+    else:
+        redirect('login')
 
 
+@login_required
 def add_client(requests):
 
     client_form = ClientForm(requests.POST)
@@ -49,7 +93,7 @@ def add_client(requests):
             return redirect('add_client')
 
 
-
+@login_required
 def desactivate_reactivate_client(requests, user_id):
 
     if requests.method == 'GET' and user_id:
@@ -64,7 +108,7 @@ def desactivate_reactivate_client(requests, user_id):
         return redirect('clients')
 
 
-
+@login_required
 def delete_client(requests, user_id):
 
     if requests.method == 'GET' and user_id:

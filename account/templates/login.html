@@ -1,0 +1,16 @@
+<center>
+    <h1>URVCard</h1>
+    <h1>Connecte toi !</h1>
+    <form action="/login/" method="post">
+        {% for field in login_form %}
+        {% csrf_token %}
+            {{ field.label }}
+            <br>
+            {{ field }}
+            <br><br>
+        {% endfor %}
+        <button type="submit">sign up</button>
+    </form>
+
+    <!-- <a href="/register/">Inscris toi</a> -->
+</center>

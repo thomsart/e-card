@@ -7,10 +7,10 @@ from django.contrib.auth.models import User
 
 from xhtml2pdf import pisa
 
+from ecard.settings import MEDIA_ROOT
 from card.form import CardForm
 from card.models import Card
 from card.utils.tools import *
-from ecard.settings import MEDIA_URL
 
 
 
@@ -159,8 +159,10 @@ def send_email_link(requests, user_id, card_id):
 
         else:
             print("Email not send")
+
             return redirect('clients')
 
     else:
         print("Unknown or Disactive CLient")
+
         return redirect('clients')

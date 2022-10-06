@@ -3,7 +3,11 @@ body {
 }
 
 nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     margin-left: 5%;
+    margin-right: 5%;
 }
 
 
@@ -19,6 +23,7 @@ nav {
 }
 
 button {
+    font-family: 'Times New Roman', Times, serif;
     height: 40px;
     width: 90px;
     border-radius: 10px;
