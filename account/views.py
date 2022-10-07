@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 from account.form import ClientForm, LoginForm
 from card.models import Card
@@ -28,8 +28,7 @@ def user_login(requests):
                 return redirect('clients')
 
             else:
-                print("########### dans le cul lulu !!!")
-
+                print("Connexion failled")
 
 
 def user_logout(requests):
@@ -39,11 +38,9 @@ def user_logout(requests):
     return redirect("user_login")
 
 
-
 @login_required
 def user_register(requests):
     return redirect('user_login')
-
 
 
 @login_required

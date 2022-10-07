@@ -1,7 +1,6 @@
 <center>
     <h1>Nouveau client :</h1>
-
-    <form action="/clients/add/" method="post">
+    <form action="/urvcard/clients/add/" method="post">
         {% csrf_token %}
         {% for field in ClientForm %}
             {{ field.label }}
@@ -11,5 +10,5 @@
         {% endfor %}
         <button type="submit">Valider</button>
     </form>
-    <a href="/clients/">Retour</a>
+    <a href="/urvcard/">Retour</a>
 </center>

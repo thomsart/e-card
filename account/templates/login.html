@@ -1,7 +1,7 @@
 <center>
     <h1>URVCard</h1>
     <h1>Connecte toi !</h1>
-    <form action="/login/" method="post">
+    <form action="/urvcard/login/" method="post">
         {% for field in login_form %}
         {% csrf_token %}
             {{ field.label }}
