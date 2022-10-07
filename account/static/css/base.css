@@ -5,11 +5,10 @@ body {
 nav {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     margin-left: 5%;
     margin-right: 5%;
 }
-
 
 /* .clients {
     background-color: rgb(106, 250, 93);
@@ -28,6 +27,7 @@ button {
     width: 90px;
     border-radius: 10px;
 }
+
 button:hover {
     background-color: hidden;
     width: 95px;

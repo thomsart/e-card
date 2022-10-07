@@ -25,46 +25,54 @@
         </nav>
 
         <!-- Clients-->
+        <br>
         <div class="clients">
 
-            {% for couple in user_cards %}
+            {% if user_cards %}
 
-                <div class="clients-menu">
+                {% for couple in user_cards %}
 
-                    <h2>Toutes les cartes de 
-                        {% if couple.user.first_name and couple.user.last_name %}
-                            {{ couple.user.first_name }} {{ couple.user.last_name }}
-                        {% else %}
-                            {{ couple.user.email }}
-                        {% endif %}
-                    </h2>
-                    <h2>{% if couple.user.is_active %}
-                            <a href="/urvcard/clients/{{couple.user.id}}/card/">
-                                <button type="submit" style="background-color: rgb(70, 253, 53);">New Card</button></a>
-                            <a href="/urvcard/clients/{{couple.user.id}}/desactivate/">
-                                <button type="submit" style="background-color: rgb(255, 252, 51);">Desactivate</button></a>
-                        {% else %}
-                            <a href="/urvcard/clients/{{couple.user.id}}/desactivate/">
-                                <button type="submit" style="background-color: rgb(255, 0, 0);">Reactivate</button></a>
-                        {% endif %}
+                    <div class="clients-menu">
 
-                        <a href="/urvcard/clients/{{couple.user.id}}/delete/">
-                            <button type="submit" style="background-color: rgb(255, 0, 0);">Delete client</button></a><br><br>
-                    </h2>
+                        <h2>Toutes les cartes de 
+                            {% if couple.user.first_name and couple.user.last_name %}
+                                {{ couple.user.first_name }} {{ couple.user.last_name }}
+                            {% else %}
+                                {{ couple.user.email }}
+                            {% endif %}
+                        </h2>
+                        <h2>{% if couple.user.is_active %}
+                                <a href="/urvcard/clients/{{couple.user.id}}/card/">
+                                    <button type="submit" style="background-color: rgb(70, 253, 53);">New Card</button></a>
+                                <a href="/urvcard/clients/{{couple.user.id}}/desactivate/">
+                                    <button type="submit" style="background-color: rgb(255, 252, 51);">Desactivate</button></a>
+                            {% else %}
+                                <a href="/urvcard/clients/{{couple.user.id}}/desactivate/">
+                                    <button type="submit" style="background-color: rgb(255, 0, 0);">Reactivate</button></a>
+                            {% endif %}
 
-                </div>
+                            <a href="/urvcard/clients/{{couple.user.id}}/delete/">
+                                <button type="submit" style="background-color: rgb(255, 0, 0);">Delete client</button></a><br><br>
+                        </h2>
 
-                <section>
-                    {% for card in couple.cards %}
-                        {% include "card.html" %}
-                        {% block card %}{% endblock %}
-                    {% endfor %}
-                </section>
+                    </div>
 
-                <div class="blank"><br><br><br></div>
+                    <section>
+                        {% for card in couple.cards %}
+                            {% include "card.html" %}
+                            {% block card %}{% endblock %}
+                        {% endfor %}
+                        <div class="blank"><br><br><br></div>
+                    </section>
 
-            {% endfor %}
-            
+                    <div class="blank"><br><br><br></div>
+
+                {% endfor %}
+
+            {% else %}
+                <br><br>
+                <h1 style="text-align: center;">Pour le moment aucun client n'est enregistré.</h1>
+            {% endif %}
         </div>
 
         <!-- Footer-->

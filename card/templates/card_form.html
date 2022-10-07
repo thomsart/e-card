@@ -1,3 +1,6 @@
+{% load static %}
+<link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css" media="all"/>
+
 <center>
     <h1>Ajoute une carte à  {% if user_first_name and user_last_name %}
                                 {{user_first_name}} {{user_last_name}}

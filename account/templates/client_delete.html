@@ -1,0 +1,13 @@
+{% load static %}
+<link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css" media="all"/>
+
+<center>
+    <h1>Do you really want to delete {{user.first_name}} {{user.last_name}}</h1>
+    <form action="/urvcard/clients/{{user.id}}/delete/" method="post">
+        {% csrf_token %}
+        <button type="submit" style="background-color: rgb(255, 0, 0);">YES</button>
+    </form>
+    <a href="/urvcard/">
+        <button type="submit" style="background-color: rgb(181, 162, 248);">NO</button>
+    </a>
+</center>

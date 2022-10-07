@@ -33,9 +33,8 @@ def add_card(requests, user_id):
             }
         )
 
-    if requests.method == 'POST':
+    if requests.method == 'POST' and user.is_active:
         if card_form.is_valid():
-            # print(requests.POST)
             # print(requests.FILES)
             if card_form["description"] != "":
                 description = '" ' + card_form.cleaned_data["description"] + ' "'

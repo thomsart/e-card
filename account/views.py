@@ -1,8 +1,12 @@
+import os
+from re import I
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
+from ecard.settings import MEDIA_ROOT
 from account.form import ClientForm, LoginForm
 from card.models import Card
 
@@ -57,6 +61,7 @@ def clients(requests):
             couple['cards'] = Card.objects.filter(user_id=user.id)
             context['user_cards'].append(couple)
 
+        print(context)
         return render(requests, 'clients.html', context)
 
     else:
@@ -93,14 +98,14 @@ def add_client(requests):
 @login_required
 def desactivate_reactivate_client(requests, user_id):
 
-    if requests.method == 'GET' and user_id:
-        user = User.objects.get(id=user_id)
-        print(user)
-        print(type(user))
+    user = User.objects.get(id=user_id)
+
+    if requests.method == 'GET' and user:
+
         if user.is_active == True:
-            User.objects.filter(id=user_id).update(is_active=False)
+            User.objects.filter(id=user.id).update(is_active=False)
         else:
-            User.objects.filter(id=user_id).update(is_active=True)
+            User.objects.filter(id=user.id).update(is_active=True)
 
         return redirect('clients')
 
@@ -108,7 +113,18 @@ def desactivate_reactivate_client(requests, user_id):
 @login_required
 def delete_client(requests, user_id):
 
-    if requests.method == 'GET' and user_id:
-        User.objects.filter(id=user_id).delete()
+    client = User.objects.get(id=user_id)
+
+    if requests.method == "GET" and client:
+
+        return render(requests, "client_delete.html", {"user": client})
+
+    elif requests.method == "POST" and client:
+
+        # we decide to delete all photos of these user's cards in the uploads first
+        list_of_card_to_delete = [card.photo for card in Card.objects.filter(user_id=client.id)]
+        for card in list_of_card_to_delete:
+            os.remove(os.path.join(MEDIA_ROOT, str(card)))
+        client.delete()
 
         return redirect('clients')
