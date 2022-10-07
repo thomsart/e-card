@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 
 from ecard.settings import MEDIA_ROOT
 from account.form import ClientForm, LoginForm
@@ -22,17 +23,20 @@ def user_login(requests):
 
     if requests.method == 'POST':
         if login_form.is_valid():
-            connection = authenticate(
+            user = authenticate(
                 username=login_form.cleaned_data["email"], password=login_form.cleaned_data["password"]
             )
 
-            if connection:
-                login(requests, connection)
+            if user:
+                login(requests, user)
 
                 return redirect('clients')
 
             else:
-                print("Connexion failled")
+                return HttpResponse("Access refused")
+
+        else:
+            return HttpResponse("Error in form")
 
 
 def user_logout(requests):
