@@ -1,12 +1,11 @@
 import os
-from re import I
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.http import HttpResponse
 
 from ecard.settings import MEDIA_ROOT
@@ -29,7 +28,6 @@ def user_login(requests):
                 username=login_form.cleaned_data["email"],
                 password=login_form.cleaned_data["password"]
             )
-            # filtrer si le user n'est pas staff et aussi si il est actif ou pas
             if user:
                 login(requests, user)
 
@@ -59,8 +57,14 @@ def clients(requests):
 
     if requests.method == 'GET':
 
-        context = {"user_cards": []}
-        users = User.objects.filter(is_superuser=False, is_staff=False).all().order_by('-date_joined')
+        user_loged_in = User.objects.get(id=requests.user.id)
+        if user_loged_in.is_superuser:
+            users = User.objects.filter(is_superuser=False, is_staff=False).all().order_by('-date_joined')
+            group = None
+        else:
+            users = User.objects.filter(is_superuser=False, is_staff=False, groups=group).all().order_by('-date_joined')
+            group = Group.objects.get(user=user_loged_in)
+        context = {"user_loged_in": user_loged_in, "user_cards": []}
 
         for user in users:
             couple = {}
@@ -68,7 +72,6 @@ def clients(requests):
             couple['cards'] = Card.objects.filter(user_id=user.id)
             context['user_cards'].append(couple)
 
-        # print(context)
         return render(requests, 'clients.html', context)
 
     else:
@@ -86,8 +89,10 @@ def add_client(requests):
 
     if requests.method == 'POST':
         if client_form.is_valid():
+            user_loged_in = User.objects.get(id=requests.user.id)
+            group = Group.objects.get(user=user_loged_in)
 
-            User.objects.create(
+            new_user = User.objects.create(
                 first_name=client_form.cleaned_data['first_name'].capitalize(),
                 last_name=client_form.cleaned_data['last_name'].capitalize(),
                 email=client_form.cleaned_data['email'],
@@ -97,6 +102,7 @@ def add_client(requests):
                     salt=None,
                     hasher='default')
             )
+            group.user_set.add(new_user)
 
             return redirect('clients')
 
