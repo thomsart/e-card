@@ -4,6 +4,8 @@ from re import I
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import make_password, check_password
+
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 
@@ -24,9 +26,10 @@ def user_login(requests):
     if requests.method == 'POST':
         if login_form.is_valid():
             user = authenticate(
-                username=login_form.cleaned_data["email"], password=login_form.cleaned_data["password"]
+                username=login_form.cleaned_data["email"],
+                password=login_form.cleaned_data["password"]
             )
-
+            # filtrer si le user n'est pas staff et aussi si il est actif ou pas
             if user:
                 login(requests, user)
 
@@ -65,7 +68,7 @@ def clients(requests):
             couple['cards'] = Card.objects.filter(user_id=user.id)
             context['user_cards'].append(couple)
 
-        print(context)
+        # print(context)
         return render(requests, 'clients.html', context)
 
     else:
@@ -89,7 +92,10 @@ def add_client(requests):
                 last_name=client_form.cleaned_data['last_name'].capitalize(),
                 email=client_form.cleaned_data['email'],
                 username=client_form.cleaned_data['email'],
-                password='1234+' + client_form.cleaned_data['email'] + '-4321'
+                password=make_password(
+                    '1234+' + client_form.cleaned_data['email'] + '-4321',
+                    salt=None,
+                    hasher='default')
             )
 
             return redirect('clients')

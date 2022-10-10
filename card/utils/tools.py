@@ -49,7 +49,7 @@ def send_email_QR_code(context):
         # message:
         email_plaintext_message,
         # from:
-        "psychoid77@gmail.com",
+        "urvcard@gmail.com",
         # to:
         [context["user"]["email"]]
     )

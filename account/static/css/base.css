@@ -29,8 +29,7 @@ button {
 }
 
 button:hover {
-    background-color: hidden;
-    width: 95px;
+    filter: brightness(2);
 }
 
 section {

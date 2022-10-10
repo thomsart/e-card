@@ -4,6 +4,6 @@ Voici votre QR-code pour generer votre carte de visite virtuelle.
 Il vous suffit de le faire scanner pour la partager.
 Cordialement,
 
-L'équipe d'E-card !
+L'équipe de URVCard !
 
 {% endautoescape %}
