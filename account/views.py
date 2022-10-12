@@ -65,11 +65,12 @@ def clients(requests):
             users = User.objects.filter(is_superuser=False, is_staff=False, groups=group).all().order_by('-date_joined')
         context = {"user_loged_in": user_loged_in, "user_cards": []}
 
-        for user in users:
-            couple = {}
-            couple['user'] = user
-            couple['cards'] = Card.objects.filter(user_id=user.id)
-            context['user_cards'].append(couple)
+        if len(users) != 0:
+            for user in users:
+                couple = {}
+                couple['user'] = user
+                couple['cards'] = Card.objects.filter(user_id=user.id)
+                context['user_cards'].append(couple)
 
         return render(requests, 'clients.html', context)
 
