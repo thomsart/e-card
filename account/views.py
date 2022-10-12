@@ -60,10 +60,9 @@ def clients(requests):
         user_loged_in = User.objects.get(id=requests.user.id)
         if user_loged_in.is_superuser:
             users = User.objects.filter(is_superuser=False, is_staff=False).all().order_by('-date_joined')
-            group = None
         else:
-            users = User.objects.filter(is_superuser=False, is_staff=False, groups=group).all().order_by('-date_joined')
             group = Group.objects.get(user=user_loged_in)
+            users = User.objects.filter(is_superuser=False, is_staff=False, groups=group).all().order_by('-date_joined')
         context = {"user_loged_in": user_loged_in, "user_cards": []}
 
         for user in users:
