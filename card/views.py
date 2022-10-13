@@ -115,7 +115,7 @@ def get_card(requests, user_id, user_email, card_id):
 
     else:
 
-        return print("No access to this card")
+        return HttpResponse("No access to this card")
 
 
 
@@ -151,17 +151,18 @@ def send_email_link(requests, user_id, card_id):
         }
 
         if generate_QR_code(context):   
-            send_email_QR_code(context)
-            delete_QR_code(context)
+            if send_email_QR_code(context):
+                delete_QR_code(context)
 
-            return redirect('clients')
+                return redirect('clients')
+
+            else:
+                delete_QR_code(context)
+
+                return HttpResponse("Email not send, is the address email correct ?")
 
         else:
-            print("Email not send")
-
-            return redirect('clients')
+            return HttpResponse("Problem to generate a QR code.")
 
     else:
-        print("Unknown or Disactive CLient")
-
-        return redirect('clients')
+        return HttpResponse("Unknown or deactivated cLient.")

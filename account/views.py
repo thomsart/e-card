@@ -112,7 +112,7 @@ def add_client(requests):
 
 
 @login_required
-def desactivate_reactivate_client(requests, user_id):
+def deactivate_reactivate_client(requests, user_id):
 
     user = User.objects.get(id=user_id)
 
