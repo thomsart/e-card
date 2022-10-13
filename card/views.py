@@ -47,10 +47,9 @@ def add_card(requests, user_id):
                 photo=card_form.cleaned_data['photo'],
                 user=user
             )
-            return redirect('clients')
+            return redirect('home')
 
         else:
-            print("Card not created")
 
             return redirect('add_card', user_id)
 
@@ -126,7 +125,7 @@ def delete_card(requests, user_id, card_id):
         os.remove(os.path.join(MEDIA_ROOT, str(card.photo)))
         card.delete()
 
-        return redirect('clients')
+        return redirect('home')
 
 
 
@@ -154,7 +153,7 @@ def send_email_link(requests, user_id, card_id):
             if send_email_QR_code(context):
                 delete_QR_code(context)
 
-                return redirect('clients')
+                return redirect('home')
 
             else:
                 delete_QR_code(context)
@@ -165,4 +164,4 @@ def send_email_link(requests, user_id, card_id):
             return HttpResponse("Problem to generate a QR code.")
 
     else:
-        return HttpResponse("Unknown or deactivated cLient.")
+        return HttpResponse("Unknown or deactivated cLient. Or the card doesn't exists anymore.")

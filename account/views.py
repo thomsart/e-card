@@ -31,7 +31,7 @@ def user_login(requests):
             if user:
                 login(requests, user)
 
-                return redirect('clients')
+                return redirect('home')
 
             else:
                 return HttpResponse("Access refused")
@@ -53,7 +53,7 @@ def user_register(requests):
 
 
 @login_required
-def clients(requests):
+def home(requests):
 
     if requests.method == 'GET':
 
@@ -104,7 +104,7 @@ def add_client(requests):
             )
             group.user_set.add(new_user)
 
-            return redirect('clients')
+            return redirect('home')
 
         else:
 
@@ -123,7 +123,7 @@ def deactivate_reactivate_client(requests, user_id):
         else:
             User.objects.filter(id=user.id).update(is_active=True)
 
-        return redirect('clients')
+        return redirect('home')
 
 
 @login_required
@@ -143,4 +143,4 @@ def delete_client(requests, user_id):
             os.remove(os.path.join(MEDIA_ROOT, str(card)))
         client.delete()
 
-        return redirect('clients')
+        return redirect('home')

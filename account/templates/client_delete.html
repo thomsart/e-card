@@ -4,7 +4,7 @@
 <center>
     <br><br<<br><br>
     <h1>Do you really want to delete {{user.first_name}} {{user.last_name}}</h1>
-    <form action="/urvcard/clients/{{user.id}}/delete/" method="post">
+    <form action="/urvcard/client/{{user.id}}/delete/" method="post">
         {% csrf_token %}
         <button type="submit" style="background-color: rgb(255, 0, 0);">YES</button>
     </form>

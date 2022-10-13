@@ -9,7 +9,7 @@
                                 {{user_email}}
                             {% endif %} :</h1>
 
-    <form action="/urvcard/clients/{{user_id}}/card/" method="post" enctype="multipart/form-data">
+    <form action="/urvcard/client/{{user_id}}/card/" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% for field in CardForm %}
             {{ field.label }}
