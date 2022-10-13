@@ -164,4 +164,4 @@ def send_email_link(requests, user_id, card_id):
             return HttpResponse("Problem to generate a QR code.")
 
     else:
-        return HttpResponse("Unknown or deactivated cLient. Or the card doesn't exists anymore.")
+        return HttpResponse("Unknown or deactivated client. Or the card doesn't exists anymore.")

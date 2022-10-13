@@ -4,7 +4,7 @@
 <center>
     <br><br><br><br>
     <h1>Nouveau client :</h1>
-    <form action="/urvcard/clients/add/" method="post">
+    <form action="/urvcard/client/add/" method="post">
         {% csrf_token %}
         {% for field in ClientForm %}
             {{ field.label }}
