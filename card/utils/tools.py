@@ -12,7 +12,7 @@ def generate_QR_code(context):
 
     try:
         img = qrcode.make(
-            ALLOWED_HOSTS[0] + "/client/" + context["user"]["id"] + "_" + context["user"]["email"] + "/card/" + context["card"]["id"],
+            ALLOWED_HOSTS[0] + "/client/" + context["user"]["id"] + "/" + context["user"]["email"] + "/card/" + context["card"]["id"],
             box_size=20
         )
         img.save(os.path.join(MEDIA_ROOT, context["user"]["id"] + '_' + context["card"]["id"] + ".png"), 'PNG')
