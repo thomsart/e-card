@@ -91,9 +91,10 @@ def link_callback(uri, rel):
 
 def get_card(requests, user_id, user_email, card_id):
 
-    user_email = user_email.replace("_", ".")
-    user = User.objects.get(id=user_id, email=user_email)
-    card = Card.objects.get(id=card_id)
+    user = User.objects.get(id=user_id)
+
+    if check_email(user.email, user_email): 
+        card = Card.objects.get(id=card_id)
 
     if requests.method == "GET" and user.is_active and card:
 

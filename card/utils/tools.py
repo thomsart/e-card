@@ -1,3 +1,4 @@
+import email
 import os
 
 from django.core.mail import EmailMultiAlternatives
@@ -8,10 +9,23 @@ from ecard.settings import BASE_DIR, MEDIA_ROOT, ALLOWED_HOSTS
 
 
 
+def check_email(original_email, email_to_check):
+
+    email_to_check = email_to_check.split('.')
+    email_to_check = "_".join(email_to_check)
+
+    if email_to_check == original_email:
+        return True
+    else:
+        return False
+
+
+
 def generate_QR_code(context):
 
     try:
-        email = context["user"]["email"].replace(".", "_")
+        email = context["user"]["email"].split('.')
+        email = "_".join(email)
         img = qrcode.make(
             ALLOWED_HOSTS[0] + "/urvcard/client/" + context["user"]["id"] + "/" + email + "/card/" + context["card"]["id"],
             box_size=20
