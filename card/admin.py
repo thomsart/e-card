@@ -1,3 +1,7 @@
 from django.contrib import admin
+from card.models import Card
 
-# Register your models here.
+class AuthorAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Card, AuthorAdmin)

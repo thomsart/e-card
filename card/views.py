@@ -36,15 +36,20 @@ def add_card(requests, user_id):
     if requests.method == 'POST' and user.is_active:
         if card_form.is_valid():
             # print(requests.FILES)
-            if card_form["description"] != "":
-                description = '" ' + card_form.cleaned_data["description"] + ' "'
+
+            if card_form.cleaned_data["title"] != "":
+                card_form.cleaned_data['title'].capitalize()
+            else:
+                card_form.cleaned_data['title'] = "Virtual-Card"
+
+            if card_form.cleaned_data["description"] != "":
+                card_form.cleaned_data["description"] = '" ' + card_form.cleaned_data["description"] + ' "'
 
             Card.objects.create(
-                profession=card_form.cleaned_data['profession'].capitalize(),
-                phone=card_form.cleaned_data['phone'],
-                email=user.email,
-                description=description,
+                title=card_form.cleaned_data['title'],
                 photo=card_form.cleaned_data['photo'],
+                description=card_form.cleaned_data["description"],
+                website=card_form.cleaned_data['website'],
                 user=user
             )
             return redirect('home')
@@ -69,10 +74,10 @@ def link_callback(uri, rel):
         result = list(os.path.realpath(path) for path in result)
         path=result[0]
     else:
-        static_url = settings.STATIC_URL        # Typically /static/
-        static_root = settings.STATIC_ROOT      # Typically /home/userX/project_static/
-        media_url = settings.MEDIA_URL         # Typically /uploads/
-        media_root = settings.MEDIA_ROOT       # Typically /home/userX/project_static/uploads/
+        static_url = settings.STATIC_URL
+        static_root = settings.STATIC_ROOT
+        media_url = settings.MEDIA_URL
+        media_root = settings.MEDIA_ROOT
 
         if uri.startswith(media_url):
             path = os.path.join(media_root, uri.replace(media_url, ""))
@@ -101,7 +106,7 @@ def get_card(requests, user_id, user_email, card_id):
         context = {"couple": {"user": user}, "card": card}
         # Create a Django response object, and specify content_type as pdf
         response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename=' + card.profession + '_' +  user.first_name + '_' + user.last_name
+        response['Content-Disposition'] = 'attachment; filename=' + card.title + '_' +  user.first_name + '_' + user.last_name
         # find the template and render it.
         template = get_template("pdf_card.html")
         html = template.render(context)
@@ -123,7 +128,8 @@ def delete_card(requests, user_id, card_id):
 
     if requests.method == 'GET' and user_id and card_id:
         card = Card.objects.get(id=card_id, user_id=user_id)
-        os.remove(os.path.join(MEDIA_ROOT, str(card.photo)))
+        if card.photo:
+            os.remove(os.path.join(MEDIA_ROOT, str(card.photo)))
         card.delete()
 
         return redirect('home')
@@ -146,7 +152,7 @@ def send_email_link(requests, user_id, card_id):
             },
             "card": {
                 "id": str(card.id),
-                "profession": card.profession
+                "title": card.title
             }
         }
 

@@ -2,6 +2,8 @@
     /* border: solid black 1px; */
     display: flex;
     flex-direction: column;
+    align-content: flex-start;
+    justify-content: space-between;
     background-color: #72cfb0;
     border-radius: 20px;
     height: 550px;
@@ -9,26 +11,22 @@
 }
 
 .card-name {
-    /* border: solid black 1px; */
-    height: 5%;
+    max-height: 10%;
     text-align: center;
 }
 
-.card-profession {
-    /* border: solid black 1px; */
-    height: 10%;
+.card-title {
+    max-height: 10%;
+    line-height: 30%;
     text-align: center;
 }
 
 .card-photo {
-    /* border: solid black; */
-    height: 30%;
+    max-height: 30%;
     text-align: auto;
-    padding-left: 10%;
-    padding-right: 10%;
 }
 
-.card-img {
+.card-photo-img {
     display: block;
     margin: 0px auto;
     max-height: 100%;
@@ -37,26 +35,40 @@
 }
 
 .card-description {
-    /* border: solid black 1px; */
-    height: 25%;
-    padding-left: 10%;
-    padding-right: 10%;
+    max-height: 20%;
 }
 
-.card-phone {
-    /* border: solid black 1px; */
-    height: 10%;
+.card-website {
+    max-height: 20%;
     text-align: center;
 }
 
-.card-email {
-    /* border: solid black 1px; */
+.card-contact, .card-option {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.card-contact {
     height: 10%;
-    text-align: center;
 }
 
 .card-option {
     /* border: solid black 1px; */
-    height: 5%;
-    padding-left: 20%;
+    flex-direction: column;
+    max-height: 20%;
+    max-width: 70%;
+}
+
+.card-img {
+    max-height: 100%;
+}
+
+.card-img:hover {
+    opacity: 0.5;
+}
+
+.card-name, .card-title, .card-photo, .card-description, .card-website, .card-contact {
+    /* border: solid black 1px; */
+    padding-left: 8%;
+    padding-right: 8%;
 }

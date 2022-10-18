@@ -1,4 +1,3 @@
-import email
 import os
 
 from django.core.mail import EmailMultiAlternatives
@@ -54,7 +53,7 @@ def send_email_QR_code(context):
 
     with open(os.path.join(BASE_DIR, "card", "templates", "email_card.html"), 'r') as temp:
         file = temp.read()
-    file = file.replace("{{ context.card.profession }}", context["card"]["profession"])
+    file = file.replace("{{ context.card.title }}", context["card"]["title"])
     # render email text
     email_plaintext_message = template.loader.get_template('email_card.txt').render(context)
 

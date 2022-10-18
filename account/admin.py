@@ -1,3 +1,7 @@
 from django.contrib import admin
+from account.models import Phone
 
-# Register your models here.
+class AuthorAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Phone, AuthorAdmin)

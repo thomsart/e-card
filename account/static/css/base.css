@@ -35,6 +35,6 @@ button:hover {
 section {
     background-color: rgb(206, 252, 169);
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 40px;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 25px;
 }

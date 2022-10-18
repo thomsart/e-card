@@ -5,41 +5,48 @@
 
 <article class="card">
 
-    <div>
-        <br><br>
-    </div>
-
     <div class="card-name">
         <h3>{{ couple.user.first_name }} {{ couple.user.last_name }}</h3>
     </div>
 
-    <div class="card-profession">
-        <h3>{{ card.profession }}</h3>
+    <div class="card-title">
+        <h3>{{ card.title }}</h3>
     </div>
 
-    <div class="card-photo">
-        <img class="card-img" src="{{ card.photo.url }}" alt="{{ card.photo.name }}">
-    </div>
+    {% if card.photo %}
+        <div class="card-photo">
+            <img class="card-photo-img" src="{{ card.photo.url }}" alt="{{ card.photo.name }}">
+        </div>
+    {% endif %}
 
     <div class="card-description">
         <p>{{ card.description }}</p>
     </div>
 
-    <div class="card-phone">
-        <a href="tel:{{ card.phone }}"><h3>{{ card.phone }}</h3></a>
+    <div class="card-website">
+        <a href="{{ card.website }}"><h3>{{ card.website }}</h3></a>
     </div>
 
-    <div class="card-email">
-        <a href="mailto:{{ couple.user.email }}"><h3>{{ couple.user.email }}</h3></a>
-    </div>
+    <div class="card-contact">
 
-    <div class="card-option">
-        <a href="/urvcard/client/{{couple.user.id}}/card/{{card.id}}/email_link/">
-            <button type="submit">Send email</button></a>
-        <a href="/urvcard/client/{{couple.user.id}}/card/{{card.id}}/delete/">
-            <button type="submit">Delete card</button></a>
+        <a href="mailto:{{ couple.user.email }}">
+            <img class="card-img" src="{% static 'img/email.png' %}">
+        </a>
+        <a href="tel:{{ couple.phone.number }}">
+            <img class="card-img" src="{% static 'img/phone.png' %}">
+        </a>
+
     </div>
 
 </article>
+
+<div class="card-option">
+    <a href="/urvcard/client/{{couple.user.id}}/card/{{card.id}}/delete/">
+        <img class="card-img" src="{% static 'img/delete.png' %}">
+    </a>
+    <a href="/urvcard/client/{{couple.user.id}}/card/{{card.id}}/email_link/">
+        <img class="card-img" src="{% static 'img/QR_code.png' %}">
+    </a>
+</div>
 
 {% endblock %}

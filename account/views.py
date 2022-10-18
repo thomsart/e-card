@@ -1,3 +1,4 @@
+import imp
 import os
 
 from django.shortcuts import render, redirect
@@ -11,6 +12,7 @@ from django.http import HttpResponse
 from ecard.settings import MEDIA_ROOT
 from account.form import ClientForm, LoginForm
 from card.models import Card
+from account.models import Phone
 
 
 
@@ -69,9 +71,11 @@ def home(requests):
             for user in users:
                 couple = {}
                 couple['user'] = user
+                couple['phone'] = Phone.objects.get(user_id=user.id)
                 couple['cards'] = Card.objects.filter(user_id=user.id)
                 context['user_cards'].append(couple)
 
+        # print(context)
         return render(requests, 'clients.html', context)
 
     else:
@@ -103,6 +107,7 @@ def add_client(requests):
                     hasher='default')
             )
             group.user_set.add(new_user)
+            Phone.objects.create(number=client_form.cleaned_data['phone'], user_id=new_user.id)
 
             return redirect('home')
 
