@@ -1,16 +1,20 @@
 {% load static %}
-{% block card %}
+{% block staff_card %}
+{% block client_card %}
 
 <link href="{% static 'css/card.css' %}" rel="stylesheet" type="text/css" media="all"/>
 
 <article class="card">
 
-    <div class="card-name">
-        <h3>{{ couple.user.first_name }} {{ couple.user.last_name }}</h3>
-    </div>
-
     <div class="card-title">
         <h3>{{ card.title }}</h3>
+    </div>
+
+    <div class="card-name">
+        <h3>
+            {% firstof couple.user.first_name user.first_name %}
+            {% firstof couple.user.last_name user.last_name %}
+        </h3>
     </div>
 
     {% if card.photo %}
@@ -19,20 +23,26 @@
         </div>
     {% endif %}
 
-    <div class="card-description">
-        <p>{{ card.description }}</p>
-    </div>
+    {% if card.description %}
+        <div class="card-description">
+            <p>{{ card.description }}</p>
+        </div>
+    {% endif %}
 
-    <div class="card-website">
-        <a href="{{ card.website }}"><h3>{{ card.website }}</h3></a>
-    </div>
+    {% if card.website %}
+        <div class="card-website">
+            <a href="{{ card.website }}">
+                <img class="card-img" src="{% static 'img/link.png' %}">
+            </a>
+        </div>
+    {% endif %}
 
     <div class="card-contact">
 
-        <a href="mailto:{{ couple.user.email }}">
+        <a href="mailto:{{ user.email }}">
             <img class="card-img" src="{% static 'img/email.png' %}">
         </a>
-        <a href="tel:{{ couple.phone.number }}">
+        <a href="tel:{{ user.phone }}">
             <img class="card-img" src="{% static 'img/phone.png' %}">
         </a>
 
@@ -41,12 +51,13 @@
 </article>
 
 <div class="card-option">
-    <a href="/urvcard/client/{{couple.user.id}}/card/{{card.id}}/delete/">
+    <a href="/urvcard/client/{% firstof couple.user.id user.id %}/card/{{ card.id  }}/delete/">
         <img class="card-img" src="{% static 'img/delete.png' %}">
     </a>
-    <a href="/urvcard/client/{{couple.user.id}}/card/{{card.id}}/email_link/">
+    <a href="/urvcard/client/{% firstof couple.user.id user.id %}/card/{{ card.id }}/email_link/">
         <img class="card-img" src="{% static 'img/QR_code.png' %}">
     </a>
 </div>
 
+{% endblock %}
 {% endblock %}

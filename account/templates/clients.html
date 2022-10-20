@@ -11,12 +11,7 @@
     <body>
         <!-- Navigation-->
         <nav>
-            <h1>Bonjour {{ user_loged_in.first_name }} {{ user_loged_in.last_name }} et bienvenu sur URVCard</h1>
-            <h1>
-                <a href="/urvcard/client/add/">
-                    <button type="submit" style="background-color: rgb(0, 174, 255);">New client</button>
-                </a>
-            </h1>
+            <h1>Bonjour {{ user.first_name }} {{ user.last_name }} et bienvenu sur URVCard</h1>
             <h1>
                 <a href="/urvcard/logout/">
                     <button type="submit" style="background-color: rgb(255, 0, 0);">Logout</button>
@@ -24,55 +19,83 @@
             </h1>
         </nav>
 
-        <!-- Clients-->
+        <!-- Staff-->
         <br>
-        <div class="clients">
-
-            {% if user_cards %}
-
-                {% for couple in user_cards %}
-
-                    <div class="clients-menu">
-
-                        <h2>Toutes les cartes de 
-                            {% if couple.user.first_name and couple.user.last_name %}
-                                {{ couple.user.first_name }} {{ couple.user.last_name }}
-                            {% else %}
-                                {{ couple.user.email }}
-                            {% endif %}
-                        </h2>
-                        <h2>{% if couple.user.is_active %}
-                                <a href="/urvcard/client/{{couple.user.id}}/card/">
-                                    <button type="submit" style="background-color: rgb(70, 253, 53);">New Card</button></a>
-                                <a href="/urvcard/client/{{couple.user.id}}/desactivate/">
-                                    <button type="submit" style="background-color: rgb(255, 252, 51);">Deactivate</button></a>
-                            {% else %}
-                                <a href="/urvcard/client/{{couple.user.id}}/desactivate/">
-                                    <button type="submit" style="background-color: rgb(255, 0, 0);">Reactivate</button></a>
-                            {% endif %}
-
-                            <a href="/urvcard/client/{{couple.user.id}}/delete/">
-                                <button type="submit" style="background-color: rgb(255, 0, 0);">Delete client</button></a><br><br>
-                        </h2>
-
-                    </div>
-
+        <div class="user">
+            {% if user %}
+                {% if cards %}
+                    <h1>Vos cartes personelles : 
+                        <a href="/urvcard/client/{{ user.id }}/card/">
+                            <button type="submit" style="background-color: rgb(70, 253, 53);">New Card</button></a>
+                    </h1>
                     <section>
-                        {% for card in couple.cards %}
+                        {% for card in cards %}
                             {% include "card.html" %}
-                            {% block card %}{% endblock %}
+                            {% block staffcard %}
+                            {% endblock %}
                         {% endfor %}
                         <div class="blank"><br><br><br></div>
                     </section>
+                {% else %}
+                    <h1>Vous n'avez aucune carte !</h1>
+                {% endif %}
+            {% endif %}
+        </div>
 
-                    <div class="blank"><br><br><br></div>
-
+        <!-- Clients-->
+        <br>
+        <div class="clients">
+            {% for group in groups %}
+            {% if group %}
+            {% for group, clients in group.items %}
+                <h1>Vos clients du groupe {{ group }} : 
+                    <a href="/urvcard/client/{{ group }}/add/">
+                        <button type="submit" style="background-color: rgb(0, 174, 255);">New client</button>
+                    </a>
+                </h1>
+                {% if clients %}
+                {% for couple in clients %}
+                    {% if cards %}
+                    {% for card in cards %}
+                        <div class="clients-menu">
+                            <h2>Toutes les cartes de {{ couple.user.first_name }} {{ couple.user.last_name }}</h2>
+                            <h2>{% if couple.user.is_active %}
+                                <a href="/urvcard/client/{{ couple.user.id }}/card/">
+                                    <button type="submit" style="background-color: rgb(70, 253, 53);">New Card</button></a>
+                                <a href="/urvcard/client/{{ couple.user.id }}/desactivate/">
+                                    <button type="submit" style="background-color: rgb(255, 252, 51);">Deactivate</button></a>
+                                {% else %}
+                                <a href="/urvcard/client/{{ couple.user.id }}/desactivate/">
+                                    <button type="submit" style="background-color: rgb(255, 0, 0);">Reactivate</button></a>
+                                {% endif %}
+                                <a href="/urvcard/client/{{ couple.user.id }}/delete/">
+                                    <button type="submit" style="background-color: rgb(255, 0, 0);">Delete client</button></a>
+                                <br><br>
+                            </h2>
+                        </div>
+                        <section>
+                            {% for card in couple.cards %}
+                                {% include "card.html" %}
+                                {% block client_card %}
+                                {% endblock %}
+                            {% endfor %}
+                            <div class="blank"><br><br><br></div>
+                        </section>
+                        <div class="blank"><br><br><br></div>
+                    {% endfor %}
+                    {% else %}
+                        <h1 style="text-align: center;">{{ couple.user.first_name }} n'a pas encore de carte</h1>
+                    {% endif %}
                 {% endfor %}
-
+                {% else %}
+                    <h1 style="text-align: center;">Aucun client pour le moment.</h1>
+                {% endif %}
+            {% endfor %}
             {% else %}
                 <br><br>
-                <h1 style="text-align: center;">Pour le moment aucun client n'est enregistré.</h1>
-            {% endif %}
+                <h1 style="text-align: center;">Aucun groupe enregistré.</h1>
+            {% endif %}    
+            {% endfor %}
         </div>
 
         <!-- Footer-->

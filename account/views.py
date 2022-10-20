@@ -50,51 +50,53 @@ def user_logout(requests):
 
 
 @login_required
-def user_register(requests):
-    return redirect('user_login')
-
-
-@login_required
 def home(requests):
 
     if requests.method == 'GET':
 
-        user_loged_in = User.objects.get(id=requests.user.id)
-        if user_loged_in.is_superuser:
-            users = User.objects.filter(is_superuser=False, is_staff=False).all().order_by('-date_joined')
-        else:
-            group = Group.objects.get(user=user_loged_in)
-            users = User.objects.filter(is_superuser=False, is_staff=False, groups=group).all().order_by('-date_joined')
-        context = {"user_loged_in": user_loged_in, "user_cards": []}
+        context = {
+            "user" : User.objects.get(id=requests.user.id),
+            "phone": Phone.objects.get(user_id=requests.user.id),
+            "cards": Card.objects.filter(user_id=requests.user.id),
+            "groups": []
+        }
 
-        if len(users) != 0:
-            for user in users:
-                couple = {}
-                couple['user'] = user
-                couple['phone'] = Phone.objects.get(user_id=user.id)
-                couple['cards'] = Card.objects.filter(user_id=user.id)
-                context['user_cards'].append(couple)
-
-        # print(context)
+        if context["user"].is_staff and context["user"].is_active:
+            groups = Group.objects.filter(user=context["user"])
+            for group in groups:
+                data = {group.name: []}
+                clients = User.objects.filter(
+                    is_superuser=False,
+                    is_staff=False,
+                    groups=group
+                ).all().order_by('-date_joined')
+                if len(clients) != 0:  
+                    for client in clients:
+                        couple = {}
+                        couple["user"] = client
+                        couple["phone"] = Phone.objects.get(user_id=client.id)
+                        couple["cards"] = Card.objects.filter(user_id=client.id)
+                        data[group.name].append(couple)
+                context["groups"].append(data)
+        print(context)
         return render(requests, 'clients.html', context)
 
     else:
-        redirect('login')
+
+        return redirect('login')
 
 
 @login_required
-def add_client(requests):
+def add_client(requests, group):
 
     client_form = ClientForm(requests.POST)
 
     if requests.method == 'GET':
 
-        return render(requests, 'client_form.html', {'ClientForm': client_form})
+        return render(requests, 'client_form.html', {'ClientForm': client_form, "group": group})
 
     if requests.method == 'POST':
         if client_form.is_valid():
-            user_loged_in = User.objects.get(id=requests.user.id)
-            group = Group.objects.get(user=user_loged_in)
 
             new_user = User.objects.create(
                 first_name=client_form.cleaned_data['first_name'].capitalize(),
@@ -106,7 +108,9 @@ def add_client(requests):
                     salt=None,
                     hasher='default')
             )
-            group.user_set.add(new_user)
+
+            in_group = Group.objects.get(name=group)
+            in_group.user_set.add(new_user)
             Phone.objects.create(number=client_form.cleaned_data['phone'], user_id=new_user.id)
 
             return redirect('home')

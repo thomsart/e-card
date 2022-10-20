@@ -10,12 +10,12 @@
     width: 280px;
 }
 
-.card-name {
+.card-title {
     max-height: 10%;
     text-align: center;
 }
 
-.card-title {
+.card-name {
     max-height: 10%;
     line-height: 30%;
     text-align: center;
@@ -39,7 +39,7 @@
 }
 
 .card-website {
-    max-height: 20%;
+    max-height: 15%;
     text-align: center;
 }
 
@@ -50,13 +50,14 @@
 
 .card-contact {
     height: 10%;
+    padding-bottom: 5%;
 }
 
 .card-option {
     /* border: solid black 1px; */
     flex-direction: column;
     max-height: 20%;
-    max-width: 70%;
+    width: 50px;
 }
 
 .card-img {
