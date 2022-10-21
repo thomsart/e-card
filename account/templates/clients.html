@@ -55,25 +55,24 @@
                         <button type="submit" style="background-color: rgb(0, 174, 255);">New client</button>
                     </a>
                 </h1>
-                <br>
                 {% if clients %}
                 {% for couple in clients %}
-                    {% if cards %}
+                    <div class="clients-menu">
+                        <h2>Les cartes de {{ couple.user.first_name }} {{ couple.user.last_name }}</h2>
+                        <h2>{% if couple.user.is_active %}
+                            <a href="/urvcard/client/{{ couple.user.id }}/card/">
+                                <button type="submit" style="background-color: rgb(70, 253, 53);">New Card</button></a>
+                            <a href="/urvcard/client/{{ couple.user.id }}/desactivate/">
+                                <button type="submit" style="background-color: rgb(255, 252, 51);">Deactivate</button></a>
+                            {% else %}
+                            <a href="/urvcard/client/{{ couple.user.id }}/desactivate/">
+                                <button type="submit" style="background-color: rgb(255, 0, 0);">Reactivate</button></a>
+                            {% endif %}
+                            <a href="/urvcard/client/{{ couple.user.id }}/delete/">
+                                <button type="submit" style="background-color: rgb(255, 0, 0);">Delete client</button></a>
+                        </h2>
+                    {% if couple.cards %}
                     {% for card in cards %}
-                        <div class="clients-menu">
-                            <h2>Les cartes de {{ couple.user.first_name }} {{ couple.user.last_name }}</h2>
-                            <h2>{% if couple.user.is_active %}
-                                <a href="/urvcard/client/{{ couple.user.id }}/card/">
-                                    <button type="submit" style="background-color: rgb(70, 253, 53);">New Card</button></a>
-                                <a href="/urvcard/client/{{ couple.user.id }}/desactivate/">
-                                    <button type="submit" style="background-color: rgb(255, 252, 51);">Deactivate</button></a>
-                                {% else %}
-                                <a href="/urvcard/client/{{ couple.user.id }}/desactivate/">
-                                    <button type="submit" style="background-color: rgb(255, 0, 0);">Reactivate</button></a>
-                                {% endif %}
-                                <a href="/urvcard/client/{{ couple.user.id }}/delete/">
-                                    <button type="submit" style="background-color: rgb(255, 0, 0);">Delete client</button></a>
-                            </h2>
                         </div>
                         <br>
                         <section>
@@ -83,21 +82,24 @@
                                 {% endblock %}
                             {% endfor %}
                         </section>
-                        <br>
-                        <br>
-                        <br>
                     {% endfor %}
                     {% else %}
-                        <h1 style="text-align: center;">{{ couple.user.first_name }} n'a pas encore de carte</h1>
+                        <h2 style="text-align: center;">Aucune carte pour le moment.</h2>
+                        </div>
                     {% endif %}
+                    <br>
+                    <br>
+                    <br>
                 {% endfor %}
                 {% else %}
-                    <h1 style="text-align: center;">Aucun client pour le moment.</h1>
+                    <h2>Aucun client pour le moment dans {{ group }}.</h2>
+                    <br>
                 {% endif %}
             {% endfor %}
             {% else %}
-                <br><br>
-                <h1 style="text-align: center;">Aucun groupe enregistré.</h1>
+                <br>
+                <br>
+                <h2 style="text-align: center;">Aucun groupe enregistré.</h2s>
             {% endif %}    
             {% endfor %}
         </div>

@@ -1,10 +1,9 @@
-import imp
 import os
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth.hashers import make_password
 
 from django.contrib.auth.models import User, Group
 from django.http import HttpResponse
@@ -75,9 +74,12 @@ def home(requests):
                         couple = {}
                         couple["user"] = client
                         couple["phone"] = Phone.objects.get(user_id=client.id)
-                        couple["cards"] = Card.objects.filter(user_id=client.id)
+                        cards = Card.objects.filter(user_id=client.id)
+                        if cards:
+                            couple["cards"] = cards
                         data[group.name].append(couple)
                 context["groups"].append(data)
+            # print(context)
 
         return render(requests, 'clients.html', context)
 
