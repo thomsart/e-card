@@ -1,5 +1,12 @@
+h1 {
+    font-size: 2em;
+}
+
+
 body {
     background-color: rgb(192, 210, 248);
+    margin-left: 2%;
+    margin-right: 2%;
 }
 
 nav {
@@ -10,9 +17,10 @@ nav {
     margin-right: 5%;
 }
 
-/* .clients {
-    background-color: rgb(106, 250, 93);
-} */
+.user, .clients, .clients-menu{
+    /* background-color: rgb(106, 250, 93); */
+    border-radius: 20px;
+}
 
 .clients-menu {
     background-color: rgb(206, 252, 169);
@@ -36,5 +44,6 @@ section {
     background-color: rgb(206, 252, 169);
     display: grid;
     grid-template-columns: repeat(8, 1fr);
-    gap: 30px;
+    grid-auto-rows: 630px;
+    border-radius: 20px;
 }

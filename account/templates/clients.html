@@ -18,32 +18,34 @@
                 </a>
             </h1>
         </nav>
+        <br>
+        <br>
+        <br>
 
         <!-- Staff-->
-        <br>
         <div class="user">
-            {% if user %}
-                {% if cards %}
-                    <h1>Vos cartes personelles : 
-                        <a href="/urvcard/client/{{ user.id }}/card/">
-                            <button type="submit" style="background-color: rgb(70, 253, 53);">New Card</button></a>
-                    </h1>
-                    <section>
-                        {% for card in cards %}
-                            {% include "card.html" %}
-                            {% block staffcard %}
-                            {% endblock %}
-                        {% endfor %}
-                        <div class="blank"><br><br><br></div>
-                    </section>
-                {% else %}
-                    <h1>Vous n'avez aucune carte !</h1>
-                {% endif %}
+            {% if cards %}
+                <h1>Vos cartes personelles : 
+                    <a href="/urvcard/client/{{ user.id }}/card/">
+                        <button type="submit" style="background-color: rgb(70, 253, 53);">New Card</button></a>
+                </h1>
+                <br>
+                <section>
+                    {% for card in cards %}
+                        {% include "card.html" %}
+                        {% block staffcard %}
+                        {% endblock %}
+                    {% endfor %}
+                </section>
+            {% else %}
+                <h1>Vous n'avez aucune carte !</h1>
             {% endif %}
         </div>
+        <br>
+        <br>
+        <br>
 
         <!-- Clients-->
-        <br>
         <div class="clients">
             {% for group in groups %}
             {% if group %}
@@ -53,12 +55,13 @@
                         <button type="submit" style="background-color: rgb(0, 174, 255);">New client</button>
                     </a>
                 </h1>
+                <br>
                 {% if clients %}
                 {% for couple in clients %}
                     {% if cards %}
                     {% for card in cards %}
                         <div class="clients-menu">
-                            <h2>Toutes les cartes de {{ couple.user.first_name }} {{ couple.user.last_name }}</h2>
+                            <h2>Les cartes de {{ couple.user.first_name }} {{ couple.user.last_name }}</h2>
                             <h2>{% if couple.user.is_active %}
                                 <a href="/urvcard/client/{{ couple.user.id }}/card/">
                                     <button type="submit" style="background-color: rgb(70, 253, 53);">New Card</button></a>
@@ -70,18 +73,19 @@
                                 {% endif %}
                                 <a href="/urvcard/client/{{ couple.user.id }}/delete/">
                                     <button type="submit" style="background-color: rgb(255, 0, 0);">Delete client</button></a>
-                                <br><br>
                             </h2>
                         </div>
+                        <br>
                         <section>
                             {% for card in couple.cards %}
                                 {% include "card.html" %}
                                 {% block client_card %}
                                 {% endblock %}
                             {% endfor %}
-                            <div class="blank"><br><br><br></div>
                         </section>
-                        <div class="blank"><br><br><br></div>
+                        <br>
+                        <br>
+                        <br>
                     {% endfor %}
                     {% else %}
                         <h1 style="text-align: center;">{{ couple.user.first_name }} n'a pas encore de carte</h1>

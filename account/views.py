@@ -78,7 +78,7 @@ def home(requests):
                         couple["cards"] = Card.objects.filter(user_id=client.id)
                         data[group.name].append(couple)
                 context["groups"].append(data)
-        print(context)
+
         return render(requests, 'clients.html', context)
 
     else:
