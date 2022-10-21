@@ -7,15 +7,15 @@
             @page {
                 size: a7 portrait;
 
-                @frame names {
+                @frame title {
                     /* -pdf-frame-border: 1; */
-                    -pdf-frame-content: names;
+                    -pdf-frame-content: title;
                     left: 30pt; width: 150pt; top: 20pt; height: 15pt;
                 }
 
-                @frame profession {
+                @frame name {
                     /* -pdf-frame-border: 1; */
-                    -pdf-frame-content: profession;
+                    -pdf-frame-content: name;
                     left: 30pt; width: 150pt; top: 35pt; height: 15pt;
                 }
 
@@ -33,9 +33,9 @@
                     left: 30pt; width: 150pt; top: 170pt; height: 70pt;
                 }
 
-                @frame phone {
+                @frame website {
                     /* -pdf-frame-border: 1; */
-                    -pdf-frame-content: phone;
+                    -pdf-frame-content: website;
                     left: 30pt; width: 150pt; top: 245pt; height: 15pt;
                 }
 
@@ -43,6 +43,12 @@
                     /* -pdf-frame-border: 1; */
                     -pdf-frame-content: email;
                     left: 30pt; width: 150pt; top: 260pt; height: 15pt;
+                }
+
+                @frame phone {
+                    /* -pdf-frame-border: 1; */
+                    -pdf-frame-content: phone;
+                    left: 30pt; width: 150pt; top: 275pt; height: 15pt;
                 }
 
             }
@@ -53,31 +59,37 @@
 
     <body>
 
-        <div id="names" style="text-align: center;">
-            <h3>{{ couple.user.first_name }} {{ couple.user.last_name }}</h3>
+        <div id="title" style="text-align: center;"> 
+            <h3>{{ title }}</h3>
         </div>
 
-        <div id="profession" style="text-align: center;"> 
-            <h3>{{ card.profession }}</h3>
+        <div id="name" style="text-align: center;">
+            <h3>{{ first_name }} {{ last_name }}</h3>
         </div>
 
         <div id="photo" style="text-align: center;">
-            <img class="card-img" src="{{ card.photo }}">
+            <img class="card-img" src="{{ photo }}">
         </div>
 
         <div id="description">
-            <p>{{ card.description }}</p>
+            <p>{{ description }}</p>
         </div>
 
-        <div id="phone" style="text-align: center;">
-            <a href="tel:{{ card.phone }}">
-                <h3>{{ card.phone }}</h3>
+        <div id="website" style="text-align: center;">
+            <a href="mailto:{{ website }}">
+                <img src="{{ link.png }}>
             </a>
         </div>
 
         <div id="email" style="text-align: center;">
-            <a href="mailto:{{ couple.user.email }}">
-                <h3>{{ couple.user.email }}</h3>
+            <a href="mailto:{{ email }}">
+                <img src="{{ email.png }}>
+            </a>
+        </div>
+
+        <div id="phone" style="text-align: center;">
+            <a href="tel:{{ phone }}">
+                <img src="{{ phone.png }}>
             </a>
         </div>
 

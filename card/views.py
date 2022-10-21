@@ -10,6 +10,7 @@ from xhtml2pdf import pisa
 from ecard.settings import MEDIA_ROOT
 from card.form import CardForm
 from card.models import Card
+from account.models import Phone
 from card.utils.tools import *
 
 
@@ -97,13 +98,21 @@ def link_callback(uri, rel):
 def get_card(requests, user_id, user_email, card_id):
 
     user = User.objects.get(id=user_id)
+    card = Card.objects.get(id=card_id)
+    phone = Phone.objects.get(user_id=user.id)
 
-    if check_email(user.email, user_email): 
-        card = Card.objects.get(id=card_id)
+    if requests.method == "GET" and user.is_active and card and check_email(user.email, user_email):
 
-    if requests.method == "GET" and user.is_active and card:
-
-        context = {"couple": {"user": user}, "card": card}
+        context = {
+            "title": card.title,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "photo": card.photo,
+            "description": card.description,
+            "website": card.website,
+            "email": user.email,
+            "phone": phone.number
+        }
         # Create a Django response object, and specify content_type as pdf
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename=' + card.title + '_' +  user.first_name + '_' + user.last_name

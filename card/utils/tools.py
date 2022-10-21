@@ -8,13 +8,14 @@ from ecard.settings import BASE_DIR, MEDIA_ROOT, ALLOWED_HOSTS
 
 
 
-def check_email(original_email, email_to_check):
+def check_email(db_user_email, url_user_email):
 
-    email_to_check = email_to_check.split('.')
-    email_to_check = "_".join(email_to_check)
+    email = db_user_email.split('.')
+    email = "_".join(email)
 
-    if email_to_check == original_email:
+    if email == url_user_email:
         return True
+
     else:
         return False
 
