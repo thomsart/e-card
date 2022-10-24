@@ -56,9 +56,12 @@ def home(requests):
         context = {
             "user" : User.objects.get(id=requests.user.id),
             "phone": Phone.objects.get(user_id=requests.user.id),
-            "cards": Card.objects.filter(user_id=requests.user.id),
             "groups": []
         }
+
+        cards = Card.objects.filter(user_id=requests.user.id)
+        if cards:
+            context["cards"] = cards
 
         if context["user"].is_staff and context["user"].is_active:
             groups = Group.objects.filter(user=context["user"])
@@ -79,7 +82,7 @@ def home(requests):
                             couple["cards"] = cards
                         data[group.name].append(couple)
                 context["groups"].append(data)
-            # print(context)
+            print(context)
 
         return render(requests, 'clients.html', context)
 

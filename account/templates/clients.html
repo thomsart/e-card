@@ -38,7 +38,10 @@
                     {% endfor %}
                 </section>
             {% else %}
-                <h1>Vous n'avez aucune carte !</h1>
+                <h1>Vous n'avez aucune carte !
+                    <a href="/urvcard/client/{{ user.id }}/card/">
+                        <button type="submit" style="background-color: rgb(70, 253, 53);">New Card</button></a>
+                </h1>
             {% endif %}
         </div>
         <br>
@@ -72,7 +75,6 @@
                                 <button type="submit" style="background-color: rgb(255, 0, 0);">Delete client</button></a>
                         </h2>
                     {% if couple.cards %}
-                    {% for card in cards %}
                         </div>
                         <br>
                         <section>
@@ -82,7 +84,6 @@
                                 {% endblock %}
                             {% endfor %}
                         </section>
-                    {% endfor %}
                     {% else %}
                         <h2 style="text-align: center;">Aucune carte pour le moment.</h2>
                         </div>
