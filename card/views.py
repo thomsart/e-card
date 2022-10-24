@@ -7,7 +7,6 @@ from django.contrib.auth.models import User
 
 from xhtml2pdf import pisa
 
-from ecard.settings import MEDIA_ROOT
 from card.form import CardForm
 from card.models import Card
 from account.models import Phone
@@ -111,8 +110,9 @@ def get_card(requests, user_id, user_email, card_id):
             "description": card.description,
             "website": card.website,
             "email": user.email,
-            "phone": phone.number
+            "phone": phone.number,
         }
+
         # Create a Django response object, and specify content_type as pdf
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename=' + card.title + '_' +  user.first_name + '_' + user.last_name
@@ -138,7 +138,7 @@ def delete_card(requests, user_id, card_id):
     if requests.method == 'GET' and user_id and card_id:
         card = Card.objects.get(id=card_id, user_id=user_id)
         if card.photo:
-            os.remove(os.path.join(MEDIA_ROOT, str(card.photo)))
+            os.remove(os.path.join(settings.MEDIA_ROOT, str(card.photo)))
         card.delete()
 
         return redirect('home')
